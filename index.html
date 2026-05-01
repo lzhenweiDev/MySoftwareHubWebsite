@@ -476,7 +476,7 @@
   </div>
 </div>
 
-<!-- Login Prompt Modal (für Gäste) -->
+<!-- Login Prompt Modal -->
 <div class="modal-overlay hidden" id="loginPromptModal">
   <div class="modal login-prompt">
     <div class="login-prompt-icon">
@@ -492,7 +492,7 @@
         <i class="fab fa-google"></i> Mit Google anmelden
       </button>
       <button class="btn" id="promptCancelBtn" style="width: 100%;">
-        <i class="fas fa-times"></i> Nein danke, ohne Funktionen weitermachen
+        <i class="fas fa-times"></i> Nein danke
       </button>
     </div>
   </div>
@@ -538,6 +538,7 @@
 <div class="modal-overlay hidden" id="softwareModal">
   <div class="modal">
     <h3 id="modalTitle">Software hinzufügen</h3>
+    <input type="hidden" id="editSwId">
     
     <div class="input-group">
       <label>Name *</label>
@@ -552,7 +553,7 @@
     <div class="input-group">
       <label>Betriebssystem</label>
       <div class="os-selector" id="osSelector">
-        <div class="os-option" data-os="windows"><i class="fab fa-windows"></i><br>Windows</div>
+        <div class="os-option selected" data-os="windows"><i class="fab fa-windows"></i><br>Windows</div>
         <div class="os-option" data-os="macos"><i class="fab fa-apple"></i><br>macOS</div>
         <div class="os-option" data-os="linux"><i class="fab fa-linux"></i><br>Linux</div>
         <div class="os-option" data-os="cross"><i class="fas fa-globe"></i><br>Cross</div>
@@ -574,6 +575,11 @@
         <option value="discontinued">🔴 Discontinued</option>
         <option value="down">⚫ Down</option>
       </select>
+    </div>
+    
+    <div class="input-group">
+      <label>Abteilung</label>
+      <select id="swDepartment"></select>
     </div>
     
     <div class="input-group"><label>Icon</label><div class="file-upload" id="iconUploadBtn"><i class="fas fa-image"></i><p>Klick zum Hochladen</p></div><input type="file" id="iconFile" accept="image/*" style="display: none;"><div id="iconPreview"></div><button class="btn btn-danger btn-sm hidden" id="removeIconBtn" style="margin-top: 5px;">Icon entfernen</button></div>
@@ -603,7 +609,32 @@
   </div>
 </div>
 
+<!-- Department Modal -->
+<div class="modal-overlay hidden" id="deptModal">
+  <div class="modal">
+    <h3 id="deptModalTitle">Neue Abteilung</h3>
+    <input type="hidden" id="editDeptId">
+    <div class="input-group">
+      <label>Name *</label>
+      <input type="text" id="deptName" placeholder="Entwicklung">
+    </div>
+    <div class="input-group">
+      <label>Icon</label>
+      <input type="text" id="deptIcon" placeholder="fas fa-code">
+    </div>
+    <div class="modal-actions">
+      <button class="btn" id="cancelDeptBtn">Abbrechen</button>
+      <button class="btn btn-danger hidden" id="deleteDeptBtn">Löschen</button>
+      <button class="btn btn-primary" id="saveDeptBtn">Speichern</button>
+    </div>
+  </div>
+</div>
+
 <script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js";
+  import { getFirestore, collection, addDoc, updateDoc, deleteDoc, doc, onSnapshot, query, orderBy, serverTimestamp, increment, arrayUnion, arrayRemove } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
+  import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged, GoogleAuthProvider, signInWithPopup } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-auth.js";
+
   const firebaseConfig = {
     apiKey: "AIzaSyDjXg0y3vnuk8L7xBh9d_W80kzmWjilheo",
     authDomain: "software-lzw.firebaseapp.com",
@@ -612,10 +643,6 @@
     messagingSenderId: "115286936457",
     appId: "1:115286936457:web:2f0d6be270bd4e3717ef58"
   };
-
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js";
-  import { getFirestore, collection, addDoc, updateDoc, deleteDoc, doc, onSnapshot, query, orderBy, serverTimestamp, increment, arrayUnion, arrayRemove } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
-  import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged, GoogleAuthProvider, signInWithPopup } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-auth.js";
 
   const app = initializeApp(firebaseConfig);
   const db = getFirestore(app);
@@ -645,40 +672,8 @@
   let selectedDeptId = null;
   let showDownloadCount = false;
 
-  // Login Prompt
-  const loginPromptModal = document.getElementById('loginPromptModal');
-  document.getElementById('promptLoginBtn').addEventListener('click', () => {
-    loginPromptModal.classList.add('hidden');
-    document.getElementById('loginModal').classList.remove('hidden');
-  });
-  document.getElementById('promptGoogleLoginBtn').addEventListener('click', async () => {
-    try {
-      await signInWithPopup(auth, googleProvider);
-      loginPromptModal.classList.add('hidden');
-    } catch (error) {
-      console.error('Google login error:', error);
-    }
-  });
-  document.getElementById('promptCancelBtn').addEventListener('click', () => {
-    loginPromptModal.classList.add('hidden');
-  });
-  loginPromptModal.addEventListener('click', (e) => {
-    if (e.target === loginPromptModal) loginPromptModal.classList.add('hidden');
-  });
-
-  // Google Login im Haupt-Login
-  document.getElementById('googleLoginBtn').addEventListener('click', async () => {
-    try {
-      await signInWithPopup(auth, googleProvider);
-      document.getElementById('loginModal').classList.add('hidden');
-    } catch (error) {
-      document.getElementById('loginError').textContent = 'Google-Anmeldung fehlgeschlagen: ' + error.message;
-    }
-  });
-
   function isAdmin() { return currentUser && currentUser.email === ADMIN_EMAIL; }
   function escapeHtml(text) { if (!text) return ''; return String(text).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;'})[c]); }
-  function formatDate(ts) { if (!ts) return '—'; const d = ts?.toDate ? ts.toDate() : new Date(ts); return d.toLocaleDateString('de-DE'); }
   function getRelativeTime(ts) {
     if (!ts) return '';
     const date = ts?.toDate ? ts.toDate() : new Date(ts);
@@ -689,30 +684,235 @@
     if (diff < 604800) return `vor ${Math.floor(diff/86400)}d`;
     return date.toLocaleDateString('de-DE');
   }
-  function isNew(ts) { if (!ts) return false; const d = ts?.toDate ? ts.toDate() : new Date(ts); return (new Date() - d) < 259200000; }
-  function isPopular(dl) { return dl >= 5; }
-  function checkOS(swOS) { if (swOS === 'cross' || detectedOS === 'unknown') return true; return swOS === detectedOS; }
 
-  function compressImage(base64, maxW = 800, maxH = 600, q = 0.6) {
-    return new Promise((resolve) => {
-      const img = new Image();
-      img.src = base64;
-      img.onload = () => {
-        const canvas = document.createElement('canvas');
-        let w = img.width, h = img.height;
-        if (w > maxW) { h = (maxW/w)*h; w = maxW; }
-        if (h > maxH) { w = (maxH/h)*w; h = maxH; }
-        canvas.width = w; canvas.height = h;
-        canvas.getContext('2d').drawImage(img, 0, 0, w, h);
-        resolve(canvas.toDataURL('image/jpeg', q));
-      };
+  // Auth State
+  onAuthStateChanged(auth, (user) => {
+    currentUser = user;
+    document.getElementById('userEmailDisplay').textContent = user ? user.email : 'Gast';
+    document.getElementById('loginBtn').classList.toggle('hidden', !!user);
+    document.getElementById('logoutBtn').classList.toggle('hidden', !user);
+    const admin = isAdmin();
+    document.getElementById('addDeptBtn').classList.toggle('hidden', !admin);
+    document.getElementById('addSoftwareBtn').classList.toggle('hidden', !admin);
+    document.getElementById('settingsBtn').classList.toggle('hidden', !admin);
+    loadData();
+  });
+
+  // Login/Logout Handlers
+  document.getElementById('loginBtn').addEventListener('click', () => {
+    document.getElementById('loginModal').classList.remove('hidden');
+  });
+  
+  document.getElementById('logoutBtn').addEventListener('click', async () => {
+    await signOut(auth);
+  });
+  
+  document.getElementById('cancelLoginBtn').addEventListener('click', () => {
+    document.getElementById('loginModal').classList.add('hidden');
+  });
+  
+  document.getElementById('submitLoginBtn').addEventListener('click', async () => {
+    const email = document.getElementById('loginEmail').value;
+    const password = document.getElementById('loginPassword').value;
+    try {
+      await signInWithEmailAndPassword(auth, email, password);
+      document.getElementById('loginModal').classList.add('hidden');
+    } catch (error) {
+      document.getElementById('loginError').textContent = 'Fehler: ' + error.message;
+    }
+  });
+  
+  document.getElementById('googleLoginBtn').addEventListener('click', async () => {
+    try {
+      await signInWithPopup(auth, googleProvider);
+      document.getElementById('loginModal').classList.add('hidden');
+    } catch (error) {
+      document.getElementById('loginError').textContent = 'Google-Anmeldung fehlgeschlagen: ' + error.message;
+    }
+  });
+
+  // Login Prompt
+  document.getElementById('promptLoginBtn').addEventListener('click', () => {
+    document.getElementById('loginPromptModal').classList.add('hidden');
+    document.getElementById('loginModal').classList.remove('hidden');
+  });
+  
+  document.getElementById('promptGoogleLoginBtn').addEventListener('click', async () => {
+    try {
+      await signInWithPopup(auth, googleProvider);
+      document.getElementById('loginPromptModal').classList.add('hidden');
+    } catch (error) {
+      console.error('Google login error:', error);
+    }
+  });
+  
+  document.getElementById('promptCancelBtn').addEventListener('click', () => {
+    document.getElementById('loginPromptModal').classList.add('hidden');
+  });
+
+  function loadData() {
+    onSnapshot(collection(db, "departments"), (snap) => {
+      departments = snap.docs.map(d => ({id: d.id, ...d.data()}));
+      renderDepartments();
+    });
+    
+    onSnapshot(query(collection(db, "software"), orderBy("lastUpdated", "desc")), (snap) => {
+      software = snap.docs.map(d => ({id: d.id, ...d.data()}));
+      renderSoftware();
     });
   }
 
-  // Like/Dislike Funktionen
+  function renderDepartments() {
+    const container = document.getElementById('departmentsContainer');
+    container.innerHTML = '';
+    
+    const allDept = document.createElement('div');
+    allDept.className = 'dept-card' + (!selectedDeptId ? ' active' : '');
+    allDept.innerHTML = '<i class="fas fa-border-all"></i> Alle';
+    allDept.addEventListener('click', () => {
+      selectedDeptId = null;
+      document.getElementById('currentDeptTitle').textContent = 'Alle Software';
+      renderDepartments();
+      renderSoftware();
+    });
+    container.appendChild(allDept);
+    
+    departments.forEach(dept => {
+      const card = document.createElement('div');
+      card.className = 'dept-card' + (selectedDeptId === dept.id ? ' active' : '');
+      card.innerHTML = `<i class="${dept.icon || 'fas fa-folder'}"></i> ${escapeHtml(dept.name)}`;
+      card.addEventListener('click', () => {
+        selectedDeptId = dept.id;
+        document.getElementById('currentDeptTitle').textContent = dept.name;
+        renderDepartments();
+        renderSoftware();
+      });
+      if (isAdmin()) {
+        card.addEventListener('dblclick', () => editDepartment(dept));
+      }
+      container.appendChild(card);
+    });
+  }
+
+  function renderSoftware() {
+    const container = document.getElementById('softwareContainer');
+    let filtered = selectedDeptId ? software.filter(s => s.department === selectedDeptId) : software;
+    
+    if (filtered.length === 0) {
+      container.innerHTML = '<div class="empty-message"><i class="fas fa-inbox"></i><br>Keine Software gefunden</div>';
+      return;
+    }
+    
+    container.innerHTML = filtered.map(sw => {
+      const likes = sw.likes || [];
+      const dislikes = sw.dislikes || [];
+      const comments = sw.comments || [];
+      const isLiked = currentUser ? likes.includes(currentUser.uid) : false;
+      const isDisliked = currentUser ? dislikes.includes(currentUser.uid) : false;
+      const osClass = `os-${sw.os}`;
+      
+      return `
+        <div class="software-card">
+          <div class="software-header">
+            <div class="software-icon" onclick="window.openImage('${sw.previewImage || ''}')">
+              ${sw.icon ? `<img src="${escapeHtml(sw.icon)}" alt="">` : '<i class="fas fa-cube"></i>'}
+            </div>
+            <div>
+              <div class="software-name">
+                ${escapeHtml(sw.name)}
+                <span class="os-badge ${osClass}"><i class="${osIcons[sw.os] || 'fas fa-question'}"></i> ${osNames[sw.os] || sw.os}</span>
+              </div>
+              <div class="software-version">v${escapeHtml(sw.version || '1.0.0')}</div>
+            </div>
+          </div>
+          
+          ${sw.previewImage ? `
+            <div class="software-preview" onclick="window.openImage('${sw.previewImage}')">
+              <img src="${escapeHtml(sw.previewImage)}" alt="Preview">
+            </div>
+          ` : ''}
+          
+          <div>
+            <span class="status-badge status-${sw.status || 'working'}">${sw.status || 'working'}</span>
+          </div>
+          
+          <div class="dates-info">
+            <i class="fas fa-calendar-alt"></i> Erstellt: ${getRelativeTime(sw.createdAt)}
+            ${sw.lastUpdated ? ` · Aktualisiert: ${getRelativeTime(sw.lastUpdated)}` : ''}
+          </div>
+          
+          ${showDownloadCount && sw.downloads ? `<div class="download-count"><i class="fas fa-download"></i> ${sw.downloads} Downloads</div>` : ''}
+          
+          ${sw.description ? `<div style="color: #cbd5e1; margin: 0.5rem 0; font-size: 0.9rem;">${escapeHtml(sw.description)}</div>` : ''}
+          
+          <div class="like-section">
+            <button class="like-btn ${isLiked ? 'liked' : ''}" data-swid="${sw.id}">
+              <i class="fas fa-thumbs-up"></i> <span>${likes.length}</span>
+            </button>
+            <button class="dislike-btn ${isDisliked ? 'disliked' : ''}" data-swid="${sw.id}">
+              <i class="fas fa-thumbs-down"></i> <span>${dislikes.length}</span>
+            </button>
+          </div>
+          
+          <div class="comment-section">
+            ${comments.slice(-3).map(c => `
+              <div class="comment">
+                <div class="comment-user">${escapeHtml(c.user?.split('@')[0] || 'User')} <span class="relative-time">${getRelativeTime(c.createdAt)}</span></div>
+                <div class="comment-text">${escapeHtml(c.text)}</div>
+              </div>
+            `).join('')}
+            
+            <div class="comment-input">
+              <input type="text" placeholder="Kommentar..." data-swid="${sw.id}" class="comment-input-field">
+              <button class="btn icon-btn" data-swid="${sw.id}" data-action="comment">
+                <i class="fas fa-paper-plane"></i>
+              </button>
+            </div>
+          </div>
+          
+          <div class="software-actions">
+            <button class="btn btn-primary" data-swid="${sw.id}" data-action="download">
+              <i class="fas fa-download"></i> Download
+            </button>
+            ${isAdmin() ? `
+              <button class="btn icon-btn" data-swid="${sw.id}" data-action="edit">
+                <i class="fas fa-edit"></i>
+              </button>
+            ` : ''}
+          </div>
+        </div>
+      `;
+    }).join('');
+    
+    // Event Listeners
+    container.querySelectorAll('.like-btn').forEach(btn => {
+      btn.addEventListener('click', () => toggleLike(btn.dataset.swid));
+    });
+    
+    container.querySelectorAll('.dislike-btn').forEach(btn => {
+      btn.addEventListener('click', () => toggleDislike(btn.dataset.swid));
+    });
+    
+    container.querySelectorAll('[data-action="comment"]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const swId = btn.dataset.swid;
+        const input = container.querySelector(`.comment-input-field[data-swid="${swId}"]`);
+        if (input) addComment(swId, input.value);
+      });
+    });
+    
+    container.querySelectorAll('[data-action="download"]').forEach(btn => {
+      btn.addEventListener('click', () => handleDownload(btn.dataset.swid));
+    });
+    
+    container.querySelectorAll('[data-action="edit"]').forEach(btn => {
+      btn.addEventListener('click', () => editSoftware(btn.dataset.swid));
+    });
+  }
+
   async function toggleLike(swId) {
     if (!currentUser) {
-      loginPromptModal.classList.remove('hidden');
+      document.getElementById('loginPromptModal').classList.remove('hidden');
       return;
     }
     const swRef = doc(db, "software", swId);
@@ -724,13 +924,16 @@
     if (likes.includes(uid)) {
       await updateDoc(swRef, { likes: arrayRemove(uid) });
     } else {
-      await updateDoc(swRef, { likes: arrayUnion(uid), dislikes: arrayRemove(uid) });
+      await updateDoc(swRef, { 
+        likes: arrayUnion(uid), 
+        dislikes: arrayRemove(uid) 
+      });
     }
   }
 
   async function toggleDislike(swId) {
     if (!currentUser) {
-      loginPromptModal.classList.remove('hidden');
+      document.getElementById('loginPromptModal').classList.remove('hidden');
       return;
     }
     const swRef = doc(db, "software", swId);
@@ -742,13 +945,16 @@
     if (dislikes.includes(uid)) {
       await updateDoc(swRef, { dislikes: arrayRemove(uid) });
     } else {
-      await updateDoc(swRef, { dislikes: arrayUnion(uid), likes: arrayRemove(uid) });
+      await updateDoc(swRef, { 
+        dislikes: arrayUnion(uid), 
+        likes: arrayRemove(uid) 
+      });
     }
   }
 
   async function addComment(swId, text) {
     if (!currentUser) {
-      loginPromptModal.classList.remove('hidden');
+      document.getElementById('loginPromptModal').classList.remove('hidden');
       return;
     }
     if (!text.trim()) return;
@@ -762,29 +968,293 @@
     await updateDoc(swRef, { comments: arrayUnion(comment) });
   }
 
-  // Restliche Funktionen (loadData, renderDepartments, renderSoftware etc.) bleiben gleich wie vorher
-  // ... (kompletter Code aus vorheriger Version mit den neuen Like/Comment-Funktionen integriert)
-  
-  onAuthStateChanged(auth, (user) => {
-    currentUser = user;
-    document.getElementById('userEmailDisplay').textContent = user ? user.email : 'Gast';
-    document.getElementById('loginBtn').classList.toggle('hidden', !!user);
-    document.getElementById('logoutBtn').classList.toggle('hidden', !user);
-    document.getElementById('addDeptBtn').classList.toggle('hidden', !isAdmin());
-    document.getElementById('addSoftwareBtn').classList.toggle('hidden', !isAdmin());
-    document.getElementById('settingsBtn').classList.toggle('hidden', !isAdmin());
-    loadData();
-  });
-
-  function loadData() {
-    onSnapshot(collection(db, "departments"), (snap) => { departments = snap.docs.map(d => ({id: d.id, ...d.data()})); renderDepartments(); });
-    onSnapshot(query(collection(db, "software"), orderBy("lastUpdated", "desc")), (snap) => { software = snap.docs.map(d => ({id: d.id, ...d.data()})); renderSoftware(); });
+  async function handleDownload(swId) {
+    const sw = software.find(s => s.id === swId);
+    if (!sw) return;
+    
+    if (!checkOS(sw.os)) {
+      document.getElementById('osWarningModal').classList.remove('hidden');
+      document.getElementById('warningMessage').textContent = 
+        `Diese Software ist für ${osNames[sw.os]} optimiert, aber du verwendest ${osNames[detectedOS]}.`;
+      document.getElementById('osMismatchInfo').innerHTML = 
+        `<i class="${osIcons[sw.os]}"></i> Software-OS: ${osNames[sw.os]}<br><i class="${osIcons[detectedOS]}"></i> Dein OS: ${osNames[detectedOS]}`;
+      
+      document.getElementById('forceDownloadBtn').onclick = async () => {
+        document.getElementById('osWarningModal').classList.add('hidden');
+        await updateDoc(doc(db, "software", swId), { downloads: increment(1) });
+        window.open(sw.link, '_blank');
+      };
+      
+      document.getElementById('cancelDownloadBtn').onclick = () => {
+        document.getElementById('osWarningModal').classList.add('hidden');
+      };
+      return;
+    }
+    
+    await updateDoc(doc(db, "software", swId), { downloads: increment(1) });
+    window.open(sw.link, '_blank');
   }
 
-  // renderDepartments, renderSoftware, openSoftwareModal, saveSoftware etc. wie gehabt...
-  // (Der gesamte restliche Code aus der letzten funktionierenden Version bleibt)
+  function checkOS(swOS) {
+    if (swOS === 'cross' || detectedOS === 'unknown') return true;
+    return swOS === detectedOS;
+  }
 
-  console.log('✅ Software Hub mit Google-Login, Likes & Kommentaren!');
+  // Settings
+  document.getElementById('settingsBtn').addEventListener('click', () => {
+    document.getElementById('settingsPanel').classList.toggle('active');
+  });
+  
+  document.getElementById('closeSettings').addEventListener('click', () => {
+    document.getElementById('settingsPanel').classList.remove('active');
+  });
+  
+  document.getElementById('showDownloadCount').addEventListener('change', (e) => {
+    showDownloadCount = e.target.checked;
+    renderSoftware();
+  });
+
+  // Image Modal
+  window.openImage = function(src) {
+    if (!src) return;
+    document.getElementById('fullImage').src = src;
+    document.getElementById('imageModal').classList.remove('hidden');
+  };
+  
+  document.getElementById('closeImageModal').addEventListener('click', () => {
+    document.getElementById('imageModal').classList.add('hidden');
+  });
+  
+  document.getElementById('imageModal').addEventListener('click', function(e) {
+    if (e.target === this) this.classList.add('hidden');
+  });
+
+  // Software Modal
+  document.getElementById('addSoftwareBtn').addEventListener('click', () => openSoftwareModal());
+  document.getElementById('cancelSwBtn').addEventListener('click', closeSoftwareModal);
+  document.getElementById('softwareModal').addEventListener('click', function(e) {
+    if (e.target === this) closeSoftwareModal();
+  });
+  
+  function openSoftwareModal(sw = null) {
+    const modal = document.getElementById('softwareModal');
+    document.getElementById('editSwId').value = sw ? sw.id : '';
+    document.getElementById('modalTitle').textContent = sw ? 'Software bearbeiten' : 'Software hinzufügen';
+    document.getElementById('swName').value = sw ? sw.name : '';
+    document.getElementById('swVersion').value = sw ? sw.version : '1.0.0';
+    document.getElementById('swLink').value = sw ? sw.link : '';
+    document.getElementById('swStatus').value = sw ? sw.status : 'working';
+    
+    // OS Selector
+    const osSelector = document.getElementById('osSelector');
+    osSelector.querySelectorAll('.os-option').forEach(opt => {
+      opt.classList.toggle('selected', opt.dataset.os === (sw ? sw.os : 'windows'));
+    });
+    document.getElementById('swOS').value = sw ? sw.os : 'windows';
+    
+    // Department
+    const deptSelect = document.getElementById('swDepartment');
+    deptSelect.innerHTML = departments.map(d => 
+      `<option value="${d.id}" ${sw && sw.department === d.id ? 'selected' : ''}>${escapeHtml(d.name)}</option>`
+    ).join('');
+    
+    // Icon
+    document.getElementById('iconPreview').innerHTML = sw && sw.icon ? 
+      `<img src="${escapeHtml(sw.icon)}" alt="Icon">` : '';
+    document.getElementById('removeIconBtn').classList.toggle('hidden', !sw || !sw.icon);
+    
+    // Preview
+    document.getElementById('previewImagePreview').innerHTML = sw && sw.previewImage ? 
+      `<img src="${escapeHtml(sw.previewImage)}" alt="Preview">` : '';
+    document.getElementById('removePreviewBtn').classList.toggle('hidden', !sw || !sw.previewImage);
+    
+    document.getElementById('swDescription').value = sw ? (sw.description || '') : '';
+    document.getElementById('deleteSwBtn').classList.toggle('hidden', !sw);
+    
+    modal.classList.remove('hidden');
+  }
+  
+  function closeSoftwareModal() {
+    document.getElementById('softwareModal').classList.add('hidden');
+    document.getElementById('iconPreview').innerHTML = '';
+    document.getElementById('previewImagePreview').innerHTML = '';
+  }
+
+  // OS Selector
+  document.getElementById('osSelector').addEventListener('click', (e) => {
+    const option = e.target.closest('.os-option');
+    if (!option) return;
+    document.querySelectorAll('#osSelector .os-option').forEach(o => o.classList.remove('selected'));
+    option.classList.add('selected');
+    document.getElementById('swOS').value = option.dataset.os;
+  });
+
+  // Icon Upload
+  document.getElementById('iconUploadBtn').addEventListener('click', () => document.getElementById('iconFile').click());
+  document.getElementById('iconFile').addEventListener('change', function(e) {
+    const file = e.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = function() {
+      document.getElementById('iconPreview').innerHTML = `<img src="${reader.result}" alt="Icon">`;
+      document.getElementById('removeIconBtn').classList.remove('hidden');
+    };
+    reader.readAsDataURL(file);
+  });
+  
+  document.getElementById('removeIconBtn').addEventListener('click', () => {
+    document.getElementById('iconPreview').innerHTML = '';
+    document.getElementById('iconFile').value = '';
+    document.getElementById('removeIconBtn').classList.add('hidden');
+  });
+  
+  // Preview Upload
+  document.getElementById('previewUploadBtn').addEventListener('click', () => document.getElementById('previewFile').click());
+  document.getElementById('previewFile').addEventListener('change', function(e) {
+    const file = e.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = function() {
+      document.getElementById('previewImagePreview').innerHTML = `<img src="${reader.result}" alt="Preview">`;
+      document.getElementById('removePreviewBtn').classList.remove('hidden');
+    };
+    reader.readAsDataURL(file);
+  });
+  
+  document.getElementById('removePreviewBtn').addEventListener('click', () => {
+    document.getElementById('previewImagePreview').innerHTML = '';
+    document.getElementById('previewFile').value = '';
+    document.getElementById('removePreviewBtn').classList.add('hidden');
+  });
+
+  // Save Software
+  document.getElementById('saveSwBtn').addEventListener('click', async () => {
+    const id = document.getElementById('editSwId').value;
+    const name = document.getElementById('swName').value.trim();
+    const link = document.getElementById('swLink').value.trim();
+    
+    if (!name || !link) {
+      alert('Name und Link sind erforderlich!');
+      return;
+    }
+    
+    const iconImg = document.getElementById('iconPreview').querySelector('img');
+    const previewImg = document.getElementById('previewImagePreview').querySelector('img');
+    
+    const data = {
+      name,
+      version: document.getElementById('swVersion').value.trim(),
+      os: document.getElementById('swOS').value,
+      link,
+      status: document.getElementById('swStatus').value,
+      department: document.getElementById('swDepartment').value,
+      icon: iconImg ? iconImg.src : null,
+      previewImage: previewImg ? previewImg.src : null,
+      description: document.getElementById('swDescription').value.trim(),
+      lastUpdated: serverTimestamp()
+    };
+    
+    try {
+      if (id) {
+        await updateDoc(doc(db, "software", id), data);
+      } else {
+        data.createdAt = serverTimestamp();
+        data.downloads = 0;
+        data.likes = [];
+        data.dislikes = [];
+        data.comments = [];
+        await addDoc(collection(db, "software"), data);
+      }
+      closeSoftwareModal();
+    } catch (error) {
+      alert('Fehler: ' + error.message);
+    }
+  });
+
+  // Delete Software
+  document.getElementById('deleteSwBtn').addEventListener('click', async () => {
+    const id = document.getElementById('editSwId').value;
+    if (!id || !confirm('Wirklich löschen?')) return;
+    await deleteDoc(doc(db, "software", id));
+    closeSoftwareModal();
+  });
+
+  function editSoftware(swId) {
+    const sw = software.find(s => s.id === swId);
+    if (sw) openSoftwareModal(sw);
+  }
+
+  // Department Modal
+  document.getElementById('addDeptBtn').addEventListener('click', () => openDeptModal());
+  document.getElementById('cancelDeptBtn').addEventListener('click', closeDeptModal);
+  document.getElementById('deptModal').addEventListener('click', function(e) {
+    if (e.target === this) closeDeptModal();
+  });
+  
+  function openDeptModal(dept = null) {
+    const modal = document.getElementById('deptModal');
+    document.getElementById('editDeptId').value = dept ? dept.id : '';
+    document.getElementById('deptModalTitle').textContent = dept ? 'Abteilung bearbeiten' : 'Neue Abteilung';
+    document.getElementById('deptName').value = dept ? dept.name : '';
+    document.getElementById('deptIcon').value = dept ? (dept.icon || '') : '';
+    document.getElementById('deleteDeptBtn').classList.toggle('hidden', !dept);
+    modal.classList.remove('hidden');
+  }
+  
+  function closeDeptModal() {
+    document.getElementById('deptModal').classList.add('hidden');
+  }
+  
+  function editDepartment(dept) {
+    openDeptModal(dept);
+  }
+  
+  document.getElementById('saveDeptBtn').addEventListener('click', async () => {
+    const id = document.getElementById('editDeptId').value;
+    const name = document.getElementById('deptName').value.trim();
+    
+    if (!name) {
+      alert('Name ist erforderlich!');
+      return;
+    }
+    
+    const data = {
+      name,
+      icon: document.getElementById('deptIcon').value.trim() || 'fas fa-folder'
+    };
+    
+    try {
+      if (id) {
+        await updateDoc(doc(db, "departments", id), data);
+      } else {
+        await addDoc(collection(db, "departments"), data);
+      }
+      closeDeptModal();
+    } catch (error) {
+      alert('Fehler: ' + error.message);
+    }
+  });
+  
+  document.getElementById('deleteDeptBtn').addEventListener('click', async () => {
+    const id = document.getElementById('editDeptId').value;
+    if (!id || !confirm('Abteilung und alle zugehörige Software löschen?')) return;
+    // Delete all software in department
+    const deptSoftware = software.filter(s => s.department === id);
+    for (const sw of deptSoftware) {
+      await deleteDoc(doc(db, "software", sw.id));
+    }
+    await deleteDoc(doc(db, "departments", id));
+    closeDeptModal();
+  });
+
+  // Modals close on overlay click
+  document.querySelectorAll('.modal-overlay').forEach(overlay => {
+    overlay.addEventListener('click', function(e) {
+      if (e.target === this) this.classList.add('hidden');
+    });
+  });
+
+  console.log('✅ Software Hub bereit!');
 </script>
 </body>
 </html>
