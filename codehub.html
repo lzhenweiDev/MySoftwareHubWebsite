@@ -3,1338 +3,12 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Software Hub · lzhenwei.dev</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: 'Inter', system-ui, -apple-system, sans-serif;
-    }
-    
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
-    
-    :root {
-      --primary: #8b5cf6;
-      --primary-dark: #6d28d9;
-      --primary-light: #a78bfa;
-      --bg-card: rgba(30, 27, 75, 0.35);
-      --border-color: rgba(139, 92, 246, 0.3);
-      --text-primary: #ede9fe;
-      --text-secondary: #c4b5fd;
-      --text-muted: #a78bfa;
-      --success: #10b981;
-      --warning: #f59e0b;
-      --danger: #ef4444;
-    }
-    
-    body {
-      background: radial-gradient(circle at 20% 30%, #1e1b4b 0%, #111827 50%, #030712 100%);
-      min-height: 100vh;
-      padding: 1.5rem;
-    }
-    
-    body::before {
-      content: '';
-      position: fixed;
-      width: 300%;
-      height: 300%;
-      top: -100%;
-      left: -100%;
-      background: 
-        radial-gradient(circle at 30% 40%, rgba(139, 92, 246, 0.12) 0%, transparent 50%),
-        radial-gradient(circle at 70% 60%, rgba(109, 40, 217, 0.08) 0%, transparent 50%);
-      animation: bgMove 20s ease-in-out infinite;
-      pointer-events: none;
-      z-index: 0;
-    }
-    
-    @keyframes bgMove {
-      0%, 100% { transform: translate(0, 0); }
-      50% { transform: translate(-2%, -1%); }
-    }
-    
-    .container {
-      max-width: 1400px;
-      margin: 0 auto;
-      position: relative;
-      z-index: 1;
-    }
-    
-    /* ========== HEADER ========== */
-    .header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 1.2rem 2rem;
-      background: rgba(30, 27, 75, 0.45);
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
-      border-radius: 60px;
-      border: 1px solid var(--border-color);
-      margin-bottom: 1.5rem;
-      flex-wrap: wrap;
-      gap: 1rem;
-    }
-    
-    .header-left {
-      display: flex;
-      align-items: center;
-      gap: 0.8rem;
-    }
-    
-    .logo {
-      width: 45px;
-      height: 45px;
-      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
-      border-radius: 14px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.3rem;
-      color: white;
-    }
-    
-    h1 {
-      font-size: 1.8rem;
-      font-weight: 800;
-      background: linear-gradient(135deg, #c4b5fd, #ede9fe);
-      -webkit-background-clip: text;
-      background-clip: text;
-      color: transparent;
-    }
-    
-    .header-right {
-      display: flex;
-      align-items: center;
-      gap: 0.7rem;
-      flex-wrap: wrap;
-    }
-    
-    .btn {
-      padding: 0.55rem 1.2rem;
-      border-radius: 35px;
-      border: 1px solid var(--border-color);
-      background: rgba(76, 29, 149, 0.25);
-      backdrop-filter: blur(10px);
-      color: var(--text-primary);
-      cursor: pointer;
-      font-weight: 600;
-      font-size: 0.85rem;
-      transition: all 0.3s;
-      display: inline-flex;
-      align-items: center;
-      gap: 0.4rem;
-      text-decoration: none;
-      white-space: nowrap;
-    }
-    
-    .btn:hover {
-      background: rgba(139, 92, 246, 0.35);
-      transform: translateY(-2px);
-      box-shadow: 0 8px 25px rgba(139, 92, 246, 0.3);
-    }
-    
-    .btn-primary {
-      background: linear-gradient(135deg, rgba(139, 92, 246, 0.6), rgba(109, 40, 217, 0.6));
-    }
-    
-    .btn-success {
-      background: rgba(16, 185, 129, 0.3);
-      border-color: rgba(16, 185, 129, 0.5);
-    }
-    
-    .btn-danger {
-      background: rgba(239, 68, 68, 0.3);
-      border-color: rgba(239, 68, 68, 0.5);
-    }
-    
-    .btn-code {
-      background: rgba(59, 130, 246, 0.3);
-      border-color: rgba(59, 130, 246, 0.5);
-    }
-    
-    .btn-code:hover {
-      background: rgba(59, 130, 246, 0.5);
-      box-shadow: 0 8px 25px rgba(59, 130, 246, 0.3);
-    }
-    
-    .btn-sm {
-      padding: 0.35rem 0.8rem;
-      font-size: 0.78rem;
-    }
-    
-    .btn-icon {
-      width: 36px;
-      height: 36px;
-      padding: 0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      border-radius: 50%;
-    }
-    
-    .user-badge {
-      display: flex;
-      align-items: center;
-      gap: 0.4rem;
-      padding: 0.35rem 0.9rem;
-      background: rgba(139, 92, 246, 0.2);
-      border-radius: 30px;
-      border: 1px solid var(--border-color);
-      font-size: 0.82rem;
-      color: var(--text-secondary);
-    }
-    
-    .detected-os {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      padding: 0.35rem 0.9rem;
-      background: rgba(139, 92, 246, 0.2);
-      border-radius: 30px;
-      font-size: 0.82rem;
-      color: var(--text-secondary);
-      border: 1px solid var(--border-color);
-    }
-    
-    /* ========== OS BADGES ========== */
-    .os-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 3px;
-      padding: 2px 8px;
-      border-radius: 15px;
-      font-size: 0.68rem;
-      font-weight: 700;
-      text-transform: uppercase;
-    }
-    
-    .os-windows { background: rgba(0, 120, 215, 0.3); color: #6eb5ff; }
-    .os-macos { background: rgba(100, 100, 100, 0.3); color: #cecece; }
-    .os-linux { background: rgba(240, 147, 0, 0.3); color: #ffb86b; }
-    .os-cross { background: rgba(139, 92, 246, 0.3); color: #c4b5fd; }
-    
-    /* ========== DEPARTMENTS ========== */
-    .section-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin: 1.8rem 0 1rem;
-      flex-wrap: wrap;
-      gap: 0.8rem;
-    }
-    
-    h2 {
-      font-size: 1.5rem;
-      font-weight: 700;
-      color: var(--text-secondary);
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-    }
-    
-    .departments-grid {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.6rem;
-      margin-bottom: 1.2rem;
-    }
-    
-    .dept-card {
-      padding: 0.7rem 1.3rem;
-      background: var(--bg-card);
-      backdrop-filter: blur(15px);
-      border-radius: 20px;
-      border: 1px solid var(--border-color);
-      color: var(--text-secondary);
-      cursor: pointer;
-      font-weight: 600;
-      font-size: 0.85rem;
-      transition: all 0.3s;
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-    }
-    
-    .dept-card:hover {
-      background: rgba(139, 92, 246, 0.3);
-      transform: translateY(-2px);
-    }
-    
-    .dept-card.active {
-      border: 2px solid var(--primary);
-      background: rgba(139, 92, 246, 0.35);
-    }
-    
-    .dept-icon {
-      width: 30px;
-      height: 30px;
-      border-radius: 8px;
-      background: rgba(139, 92, 246, 0.3);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 0.85rem;
-    }
-    
-    .dept-count {
-      background: rgba(139, 92, 246, 0.3);
-      padding: 2px 7px;
-      border-radius: 12px;
-      font-size: 0.72rem;
-      font-weight: 700;
-      margin-left: auto;
-    }
-    
-    /* ========== SOFTWARE ========== */
-    .software-section {
-      background: rgba(30, 27, 75, 0.2);
-      backdrop-filter: blur(25px);
-      border-radius: 28px;
-      padding: 1.5rem;
-      border: 1px solid var(--border-color);
-    }
-    
-    .software-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
-      gap: 1.2rem;
-      margin-top: 1rem;
-    }
-    
-    .software-card {
-      background: var(--bg-card);
-      backdrop-filter: blur(15px);
-      border-radius: 20px;
-      padding: 1.2rem;
-      border: 1px solid var(--border-color);
-      transition: all 0.3s;
-    }
-    
-    .software-card:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 15px 35px rgba(139, 92, 246, 0.2);
-      border-color: rgba(139, 92, 246, 0.5);
-    }
-    
-    .software-header {
-      display: flex;
-      align-items: center;
-      gap: 0.8rem;
-      margin-bottom: 0.8rem;
-    }
-    
-    .software-icon {
-      width: 52px;
-      height: 52px;
-      background: linear-gradient(135deg, rgba(139, 92, 246, 0.4), rgba(109, 40, 217, 0.4));
-      border-radius: 14px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.6rem;
-      color: var(--text-secondary);
-      border: 2px solid rgba(139, 92, 246, 0.4);
-      overflow: hidden;
-      flex-shrink: 0;
-      cursor: pointer;
-    }
-    
-    .software-icon img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      border-radius: 12px;
-    }
-    
-    .software-name {
-      font-size: 1.05rem;
-      font-weight: 700;
-      color: var(--text-primary);
-    }
-    
-    .software-version {
-      color: var(--text-muted);
-      font-size: 0.78rem;
-    }
-    
-    .software-preview {
-      width: 100%;
-      height: 150px;
-      background: rgba(17, 24, 39, 0.5);
-      border-radius: 12px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin: 0.7rem 0;
-      border: 1px solid rgba(139, 92, 246, 0.2);
-      overflow: hidden;
-      cursor: pointer;
-    }
-    
-    .software-preview img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-    
-    .status-badge {
-      display: inline-flex;
-      padding: 0.2rem 0.6rem;
-      border-radius: 15px;
-      font-size: 0.68rem;
-      font-weight: 700;
-      text-transform: uppercase;
-    }
-    
-    .status-working { background: rgba(16, 185, 129, 0.3); color: #6ee7b7; }
-    .status-stable { background: rgba(59, 130, 246, 0.3); color: #93c5fd; }
-    .status-beta { background: rgba(245, 158, 11, 0.3); color: #fcd34d; }
-    .status-discontinued { background: rgba(239, 68, 68, 0.3); color: #fca5a5; }
-    .status-down { background: rgba(107, 114, 128, 0.3); color: #d1d5db; }
-    
-    .dates-info {
-      font-size: 0.72rem;
-      color: var(--text-muted);
-      margin: 0.4rem 0;
-    }
-    
-    .like-section {
-      display: flex;
-      gap: 0.5rem;
-      margin: 0.5rem 0;
-    }
-    
-    .like-btn, .dislike-btn {
-      display: flex;
-      align-items: center;
-      gap: 4px;
-      padding: 0.3rem 0.7rem;
-      border-radius: 18px;
-      border: 1px solid rgba(139, 92, 246, 0.3);
-      background: rgba(76, 29, 149, 0.2);
-      color: var(--text-primary);
-      cursor: pointer;
-      font-size: 0.78rem;
-      font-weight: 600;
-      transition: all 0.2s;
-    }
-    
-    .like-btn:hover { background: rgba(16, 185, 129, 0.3); }
-    .dislike-btn:hover { background: rgba(239, 68, 68, 0.3); }
-    .like-btn.liked { background: rgba(16, 185, 129, 0.4) !important; border-color: var(--success) !important; }
-    .dislike-btn.disliked { background: rgba(239, 68, 68, 0.4) !important; border-color: var(--danger) !important; }
-    
-    .comment-section {
-      margin-top: 0.5rem;
-      border-top: 1px solid rgba(139, 92, 246, 0.12);
-      padding-top: 0.6rem;
-    }
-    
-    .comment {
-      background: rgba(20, 10, 40, 0.3);
-      padding: 0.5rem 0.7rem;
-      border-radius: 10px;
-      margin-bottom: 0.3rem;
-      font-size: 0.78rem;
-    }
-    
-    .comment-user { color: var(--text-muted); font-weight: 600; font-size: 0.72rem; }
-    .comment-text { color: #cbd5e1; }
-    
-    .comment-input {
-      display: flex;
-      gap: 0.3rem;
-      margin-top: 0.3rem;
-    }
-    
-    .comment-input input {
-      flex: 1;
-      padding: 0.4rem 0.7rem;
-      border-radius: 18px;
-      border: 1px solid rgba(139, 92, 246, 0.3);
-      background: rgba(17, 24, 39, 0.6);
-      color: var(--text-primary);
-      font-size: 0.78rem;
-    }
-    
-    .software-actions {
-      display: flex;
-      gap: 0.4rem;
-      margin-top: 0.7rem;
-    }
-    
-    .software-actions .btn {
-      flex: 1;
-      justify-content: center;
-    }
-    
-    /* ========== MODALS ========== */
-    .modal-overlay {
-      position: fixed;
-      top: 0; left: 0; right: 0; bottom: 0;
-      background: rgba(0, 0, 0, 0.85);
-      backdrop-filter: blur(8px);
-      z-index: 999;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-    
-    .modal {
-      background: rgba(30, 27, 75, 0.97);
-      backdrop-filter: blur(30px);
-      padding: 1.8rem;
-      border-radius: 25px;
-      border: 1px solid var(--border-color);
-      max-width: 550px;
-      width: 95%;
-      max-height: 85vh;
-      overflow-y: auto;
-      color: var(--text-primary);
-    }
-    
-    .modal h3 {
-      font-size: 1.3rem;
-      color: var(--text-secondary);
-      margin-bottom: 1.2rem;
-    }
-    
-    .input-group {
-      margin-bottom: 1rem;
-    }
-    
-    .input-group label {
-      display: block;
-      margin-bottom: 0.3rem;
-      color: var(--text-muted);
-      font-weight: 600;
-      font-size: 0.82rem;
-    }
-    
-    .input-group input,
-    .input-group select,
-    .input-group textarea {
-      width: 100%;
-      padding: 0.6rem 0.9rem;
-      border-radius: 12px;
-      border: 1px solid var(--border-color);
-      background: rgba(17, 24, 39, 0.6);
-      color: var(--text-primary);
-      font-size: 0.88rem;
-    }
-    
-    .input-group textarea {
-      resize: vertical;
-      min-height: 70px;
-    }
-    
-    .input-group input:focus,
-    .input-group select:focus,
-    .input-group textarea:focus {
-      outline: none;
-      border-color: var(--primary);
-      box-shadow: 0 0 12px rgba(139, 92, 246, 0.2);
-    }
-    
-    .file-upload {
-      border: 2px dashed rgba(139, 92, 246, 0.4);
-      border-radius: 12px;
-      padding: 1.2rem;
-      text-align: center;
-      cursor: pointer;
-      transition: all 0.2s;
-    }
-    
-    .file-upload:hover {
-      border-color: var(--primary);
-      background: rgba(139, 92, 246, 0.06);
-    }
-    
-    .file-upload i { font-size: 1.8rem; color: var(--text-muted); }
-    
-    .modal-actions {
-      display: flex;
-      gap: 0.6rem;
-      justify-content: flex-end;
-      margin-top: 1.2rem;
-    }
-    
-    .os-selector {
-      display: flex;
-      gap: 6px;
-      flex-wrap: wrap;
-    }
-    
-    .os-option {
-      flex: 1;
-      min-width: 65px;
-      padding: 8px 5px;
-      border-radius: 10px;
-      background: rgba(76, 29, 149, 0.3);
-      border: 1px solid rgba(139, 92, 246, 0.4);
-      color: var(--text-primary);
-      cursor: pointer;
-      text-align: center;
-      font-size: 0.75rem;
-      transition: all 0.2s;
-    }
-    
-    .os-option:hover { background: rgba(139, 92, 246, 0.4); }
-    .os-option.selected { border: 2px solid var(--primary); background: rgba(139, 92, 246, 0.5); }
-    .os-option i { font-size: 1.4rem; display: block; margin-bottom: 3px; }
-    
-    /* ========== SETTINGS ========== */
-    .settings-btn {
-      position: fixed;
-      bottom: 25px;
-      right: 25px;
-      width: 52px;
-      height: 52px;
-      border-radius: 50%;
-      background: rgba(139, 92, 246, 0.4);
-      backdrop-filter: blur(20px);
-      border: 1px solid rgba(139, 92, 246, 0.5);
-      color: var(--text-primary);
-      font-size: 1.3rem;
-      cursor: pointer;
-      z-index: 100;
-      transition: all 0.3s;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-    
-    .settings-btn:hover {
-      transform: scale(1.1) rotate(30deg);
-      background: rgba(139, 92, 246, 0.6);
-    }
-    
-    .settings-panel {
-      position: fixed;
-      bottom: 85px;
-      right: 25px;
-      width: 280px;
-      background: rgba(30, 27, 75, 0.97);
-      backdrop-filter: blur(30px);
-      border-radius: 20px;
-      padding: 1.3rem;
-      border: 1px solid var(--border-color);
-      z-index: 99;
-      transform: translateX(330px);
-      transition: transform 0.3s;
-      color: var(--text-primary);
-    }
-    
-    .settings-panel.open {
-      transform: translateX(0);
-    }
-    
-    .settings-panel h3 {
-      color: var(--text-secondary);
-      margin-bottom: 1rem;
-      font-size: 1.05rem;
-    }
-    
-    .setting-item {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 0.8rem;
-      padding: 0.4rem 0;
-      border-bottom: 1px solid rgba(139, 92, 246, 0.1);
-    }
-    
-    .setting-item label {
-      font-size: 0.85rem;
-    }
-    
-    .toggle-switch {
-      position: relative;
-      display: inline-block;
-      width: 46px;
-      height: 24px;
-    }
-    
-    .toggle-switch input { opacity: 0; width: 0; height: 0; }
-    
-    .toggle-slider {
-      position: absolute;
-      cursor: pointer;
-      top: 0; left: 0; right: 0; bottom: 0;
-      background-color: rgba(76, 29, 149, 0.5);
-      transition: 0.3s;
-      border-radius: 24px;
-    }
-    
-    .toggle-slider:before {
-      position: absolute;
-      content: "";
-      height: 18px; width: 18px;
-      left: 2px; bottom: 2px;
-      background: white;
-      transition: 0.3s;
-      border-radius: 50%;
-    }
-    
-    input:checked + .toggle-slider {
-      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
-    }
-    
-    input:checked + .toggle-slider:before {
-      transform: translateX(22px);
-    }
-    
-    .hidden { display: none !important; }
-    .empty-message {
-      text-align: center;
-      padding: 3rem;
-      color: var(--text-muted);
-      grid-column: 1 / -1;
-    }
-    
-    .empty-message i { font-size: 2.5rem; margin-bottom: 0.8rem; opacity: 0.4; display: block; }
-    
-    #iconPreview img, #previewImagePreview img {
-      margin-top: 6px;
-      border-radius: 10px;
-      border: 2px solid var(--border-color);
-    }
-    
-    #iconPreview img { width: 80px; height: 80px; object-fit: cover; }
-    #previewImagePreview img { width: 100%; max-height: 100px; object-fit: cover; }
-    
-    @media (max-width: 768px) {
-      body { padding: 0.7rem; }
-      .header { padding: 1rem; border-radius: 35px; }
-      h1 { font-size: 1.3rem; }
-      .software-grid { grid-template-columns: 1fr; }
-    }
-  </style>
-</head>
-<body>
-
-<div class="container">
-  <!-- HEADER -->
-  <div class="header">
-    <div class="header-left">
-      <div class="logo"><i class="fas fa-cube"></i></div>
-      <h1>SoftRepo</h1>
-    </div>
-    
-    <div class="header-right">
-      <a href="https://lzhenweidev.github.io/codehub.html" class="btn btn-code btn-sm">
-        <i class="fas fa-code"></i> Code Hub
-      </a>
-      
-      <div class="detected-os" id="detectedOsDisplay">
-        <i class="fab fa-windows"></i><span>Windows</span>
-      </div>
-      
-      <div class="user-badge">
-        <i class="fas fa-user-circle"></i>
-        <span id="userEmailDisplay">Gast</span>
-      </div>
-      
-      <button class="btn btn-primary btn-sm" id="loginBtn">
-        <i class="fas fa-sign-in-alt"></i> Anmelden
-      </button>
-      
-      <button class="btn btn-sm hidden" id="logoutBtn">
-        <i class="fas fa-sign-out-alt"></i> Abmelden
-      </button>
-    </div>
-  </div>
-
-  <!-- DEPARTMENTS -->
-  <div class="section-header">
-    <h2><i class="fas fa-folder-tree"></i> Abteilungen</h2>
-    <button class="btn btn-sm hidden" id="addDeptBtn">
-      <i class="fas fa-plus"></i> Neue Abteilung
-    </button>
-  </div>
-  <div class="departments-grid" id="departmentsContainer"></div>
-
-  <!-- SOFTWARE -->
-  <div class="software-section">
-    <div class="section-header">
-      <h2 id="currentDeptTitle"><i class="fas fa-cube"></i> Alle Software</h2>
-      <button class="btn btn-success btn-sm hidden" id="addSoftwareBtn">
-        <i class="fas fa-plus"></i> Software hinzufügen
-      </button>
-    </div>
-    <div class="software-grid" id="softwareContainer">
-      <div class="empty-message">
-        <i class="fas fa-spinner fa-pulse"></i>
-        <p>Lade Software...</p>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- SETTINGS -->
-<button class="settings-btn hidden" id="settingsBtn" title="Einstellungen">
-  <i class="fas fa-cog"></i>
-</button>
-
-<div class="settings-panel" id="settingsPanel">
-  <h3><i class="fas fa-sliders-h"></i> Einstellungen</h3>
-  
-  <div class="setting-item">
-    <label><i class="fas fa-download"></i> Downloads anzeigen</label>
-    <label class="toggle-switch">
-      <input type="checkbox" id="showDownloadCountToggle">
-      <span class="toggle-slider"></span>
-    </label>
-  </div>
-  
-  <div class="setting-item">
-    <label><i class="fas fa-filter"></i> Nur kompatible OS</label>
-    <label class="toggle-switch">
-      <input type="checkbox" id="showCompatibleOnlyToggle">
-      <span class="toggle-slider"></span>
-    </label>
-  </div>
-  
-  <button class="btn btn-primary btn-sm" id="closeSettingsBtn" style="width: 100%; margin-top: 0.5rem;">
-    <i class="fas fa-check"></i> Schließen
-  </button>
-</div>
-
-<!-- SOFTWARE MODAL -->
-<div class="modal-overlay hidden" id="softwareModal">
-  <div class="modal">
-    <h3 id="modalTitle"><i class="fas fa-plus-circle"></i> Software hinzufügen</h3>
-    <input type="hidden" id="editSwId">
-    
-    <div class="input-group">
-      <label>Name *</label>
-      <input type="text" id="swName" placeholder="z.B. Visual Studio Code">
-    </div>
-    
-    <div class="input-group">
-      <label>Version</label>
-      <input type="text" id="swVersion" placeholder="1.0.0" value="1.0.0">
-    </div>
-    
-    <div class="input-group">
-      <label>Betriebssystem *</label>
-      <div class="os-selector" id="osSelector">
-        <div class="os-option selected" data-os="windows"><i class="fab fa-windows"></i>Windows</div>
-        <div class="os-option" data-os="macos"><i class="fab fa-apple"></i>macOS</div>
-        <div class="os-option" data-os="linux"><i class="fab fa-linux"></i>Linux</div>
-        <div class="os-option" data-os="cross"><i class="fas fa-globe"></i>Cross</div>
-      </div>
-      <input type="hidden" id="swOS" value="windows">
-    </div>
-    
-    <div class="input-group">
-      <label>Download-Link *</label>
-      <input type="text" id="swLink" placeholder="https://...">
-    </div>
-    
-    <div class="input-group">
-      <label>Status</label>
-      <select id="swStatus">
-        <option value="working">🟢 Working</option>
-        <option value="stable">🔵 Stable</option>
-        <option value="beta">🟡 Beta</option>
-        <option value="discontinued">🔴 Discontinued</option>
-        <option value="down">⚫ Down</option>
-      </select>
-    </div>
-    
-    <div class="input-group">
-      <label>Abteilung</label>
-      <select id="swDepartment"></select>
-    </div>
-    
-    <div class="input-group">
-      <label>Icon</label>
-      <div class="file-upload" id="iconUploadArea">
-        <i class="fas fa-image"></i><p>Klick zum Hochladen</p>
-      </div>
-      <input type="file" id="iconFileInput" accept="image/*" hidden>
-      <div id="iconPreview"></div>
-      <button class="btn btn-sm btn-danger hidden" id="removeIconBtn" style="margin-top:5px;">
-        <i class="fas fa-trash"></i> Icon entfernen
-      </button>
-    </div>
-    
-    <div class="input-group">
-      <label>Vorschaubild</label>
-      <div class="file-upload" id="previewUploadArea">
-        <i class="fas fa-image"></i><p>Klick zum Hochladen</p>
-      </div>
-      <input type="file" id="previewFileInput" accept="image/*" hidden>
-      <div id="previewImagePreview"></div>
-      <button class="btn btn-sm btn-danger hidden" id="removePreviewBtn" style="margin-top:5px;">
-        <i class="fas fa-trash"></i> Vorschau entfernen
-      </button>
-    </div>
-    
-    <div class="input-group">
-      <label>Beschreibung</label>
-      <textarea id="swDescription" rows="3" placeholder="Beschreibung..."></textarea>
-    </div>
-    
-    <div class="modal-actions">
-      <button class="btn" id="cancelSwBtn"><i class="fas fa-times"></i> Abbrechen</button>
-      <button class="btn btn-danger hidden" id="deleteSwBtn"><i class="fas fa-trash"></i> Löschen</button>
-      <button class="btn btn-primary" id="saveSwBtn"><i class="fas fa-save"></i> Speichern</button>
-    </div>
-  </div>
-</div>
-
-<!-- DEPARTMENT MODAL -->
-<div class="modal-overlay hidden" id="deptModal">
-  <div class="modal" style="max-width:420px;">
-    <h3 id="deptModalTitle"><i class="fas fa-plus-circle"></i> Neue Abteilung</h3>
-    <input type="hidden" id="editDeptId">
-    
-    <div class="input-group">
-      <label>Name *</label>
-      <input type="text" id="deptName" placeholder="z.B. Entwicklung">
-    </div>
-    
-    <div class="input-group">
-      <label>Icon (Font Awesome)</label>
-      <input type="text" id="deptIcon" placeholder="fas fa-code" value="fas fa-folder">
-    </div>
-    
-    <div class="modal-actions">
-      <button class="btn" id="cancelDeptBtn"><i class="fas fa-times"></i> Abbrechen</button>
-      <button class="btn btn-danger hidden" id="deleteDeptBtn"><i class="fas fa-trash"></i> Löschen</button>
-      <button class="btn btn-primary" id="saveDeptBtn"><i class="fas fa-save"></i> Speichern</button>
-    </div>
-  </div>
-</div>
-
-<!-- LOGIN MODAL -->
-<div class="modal-overlay hidden" id="loginModal">
-  <div class="modal" style="max-width:400px;">
-    <h3><i class="fas fa-sign-in-alt"></i> Anmelden</h3>
-    
-    <div class="input-group">
-      <label>E-Mail</label>
-      <input type="email" id="loginEmail" placeholder="deine@email.de">
-    </div>
-    
-    <div class="input-group">
-      <label>Passwort</label>
-      <input type="password" id="loginPassword" placeholder="••••••••">
-    </div>
-    
-    <div id="loginError" style="color:#fca5a5;font-size:0.82rem;margin-bottom:0.8rem;"></div>
-    
-    <div style="display:flex;flex-direction:column;gap:0.6rem;">
-      <button class="btn btn-primary" id="submitLoginBtn" style="width:100%;"><i class="fas fa-key"></i> Anmelden</button>
-      <button class="btn" id="googleLoginBtn" style="width:100%;background:rgba(234,67,53,0.3);"><i class="fab fa-google"></i> Mit Google</button>
-      <button class="btn" id="cancelLoginBtn" style="width:100%;"><i class="fas fa-times"></i> Abbrechen</button>
-    </div>
-  </div>
-</div>
-
-<!-- IMAGE MODAL -->
-<div class="modal-overlay hidden" id="imageModal">
-  <div style="max-width:90vw;max-height:90vh;position:relative;">
-    <img id="fullImage" src="" style="width:100%;height:100%;object-fit:contain;border-radius:20px;">
-    <button class="btn btn-icon" id="closeImageBtn" style="position:absolute;top:-42px;right:0;background:rgba(0,0,0,0.7);">
-      <i class="fas fa-times"></i>
-    </button>
-  </div>
-</div>
-
-<script type="module">
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js";
-  import { getFirestore, collection, addDoc, updateDoc, deleteDoc, doc, onSnapshot, query, orderBy, serverTimestamp, increment, arrayUnion, arrayRemove } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
-  import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged, GoogleAuthProvider, signInWithPopup } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-auth.js";
-
-  const firebaseConfig = {
-    apiKey: "AIzaSyDjXg0y3vnuk8L7xBh9d_W80kzmWjilheo",
-    authDomain: "software-lzw.firebaseapp.com",
-    projectId: "software-lzw",
-    storageBucket: "software-lzw.appspot.com",
-    messagingSenderId: "115286936457",
-    appId: "1:115286936457:web:2f0d6be270bd4e3717ef58"
-  };
-
-  const app = initializeApp(firebaseConfig);
-  const db = getFirestore(app);
-  const auth = getAuth(app);
-  const googleProvider = new GoogleAuthProvider();
-  
-  const ADMIN_EMAIL = 'lzhenwei.dev@gmail.com';
-
-  function detectOS() {
-    const ua = navigator.userAgent.toLowerCase();
-    if (ua.includes('win')) return 'windows';
-    if (ua.includes('mac')) return 'macos';
-    if (ua.includes('linux')) return 'linux';
-    return 'unknown';
-  }
-
-  const detectedOS = detectOS();
-  const osNames = { windows:'Windows', macos:'macOS', linux:'Linux', unknown:'Unbekannt', cross:'Cross-Platform' };
-  const osIcons = { windows:'fab fa-windows', macos:'fab fa-apple', linux:'fab fa-linux', unknown:'fas fa-question', cross:'fas fa-globe' };
-
-  let departments = [], software = [], currentUser = null, selectedDeptId = null;
-  let showDownloadCount = false, showCompatibleOnly = false;
-
-  function isAdmin() { return currentUser && currentUser.email === ADMIN_EMAIL; }
-  function escapeHtml(t) { if(!t) return ''; const d = document.createElement('div'); d.textContent = t; return d.innerHTML; }
-  function getRelativeTime(ts) {
-    if(!ts) return '';
-    const d = ts?.toDate ? ts.toDate() : new Date(ts);
-    const diff = Math.floor((new Date()-d)/1000);
-    if(diff<60) return `vor ${diff}s`;
-    if(diff<3600) return `vor ${Math.floor(diff/60)}min`;
-    if(diff<86400) return `vor ${Math.floor(diff/3600)}h`;
-    return d.toLocaleDateString('de-DE');
-  }
-  function checkOS(o) { return o==='cross'||detectedOS==='unknown' ? true : o===detectedOS; }
-
-  onAuthStateChanged(auth, user => {
-    currentUser = user;
-    document.getElementById('userEmailDisplay').textContent = user ? user.email.split('@')[0] : 'Gast';
-    document.getElementById('loginBtn').classList.toggle('hidden', !!user);
-    document.getElementById('logoutBtn').classList.toggle('hidden', !user);
-    const a = isAdmin();
-    document.getElementById('addDeptBtn').classList.toggle('hidden', !a);
-    document.getElementById('addSoftwareBtn').classList.toggle('hidden', !a);
-    document.getElementById('settingsBtn').classList.toggle('hidden', !a);
-    loadData();
-  });
-
-  function loadData() {
-    onSnapshot(collection(db,"departments"), s => { departments = s.docs.map(d=>({id:d.id,...d.data()})); renderDepartments(); });
-    onSnapshot(query(collection(db,"software"),orderBy("lastUpdated","desc")), s => { software = s.docs.map(d=>({id:d.id,...d.data()})); renderSoftware(); });
-  }
-
-  function renderDepartments() {
-    const c = document.getElementById('departmentsContainer');
-    let h = `<div class="dept-card ${!selectedDeptId?'active':''}" data-dept="all"><div class="dept-icon"><i class="fas fa-border-all"></i></div><span>Alle</span><span class="dept-count">${software.length}</span></div>`;
-    departments.forEach(d => {
-      const cnt = software.filter(s=>s.department===d.id).length;
-      h += `<div class="dept-card ${selectedDeptId===d.id?'active':''}" data-dept="${d.id}"><div class="dept-icon"><i class="${d.icon||'fas fa-folder'}"></i></div><span>${escapeHtml(d.name)}</span><span class="dept-count">${cnt}</span></div>`;
-    });
-    c.innerHTML = h;
-    c.querySelectorAll('.dept-card').forEach(card => {
-      card.addEventListener('click', () => {
-        selectedDeptId = card.dataset.dept==='all' ? null : card.dataset.dept;
-        const dept = departments.find(d=>d.id===selectedDeptId);
-        document.getElementById('currentDeptTitle').innerHTML = dept ? `<i class="${dept.icon||'fas fa-folder'}"></i> ${escapeHtml(dept.name)}` : '<i class="fas fa-cube"></i> Alle Software';
-        renderDepartments(); renderSoftware();
-      });
-      if(isAdmin() && card.dataset.dept!=='all') {
-        card.addEventListener('dblclick', () => {
-          const dept = departments.find(d=>d.id===card.dataset.dept);
-          if(dept) openDeptModal(dept);
-        });
-      }
-    });
-  }
-
-  function renderSoftware() {
-    const c = document.getElementById('softwareContainer');
-    let f = [...software];
-    if(selectedDeptId) f = f.filter(s=>s.department===selectedDeptId);
-    if(showCompatibleOnly) f = f.filter(s=>checkOS(s.os));
-    
-    if(!f.length) { c.innerHTML = '<div class="empty-message"><i class="fas fa-inbox"></i><p>Keine Software gefunden</p></div>'; return; }
-
-    c.innerHTML = f.map(sw => {
-      const likes = sw.likes||[], dislikes = sw.dislikes||[], comments = sw.comments||[];
-      const isLiked = currentUser?likes.includes(currentUser.uid):false;
-      const isDisliked = currentUser?dislikes.includes(currentUser.uid):false;
-      return `
-        <div class="software-card">
-          <div class="software-header">
-            <div class="software-icon" data-action="viewIcon" data-src="${escapeHtml(sw.icon||'')}">
-              ${sw.icon?`<img src="${escapeHtml(sw.icon)}">`:'<i class="fas fa-cube"></i>'}
-            </div>
-            <div>
-              <div class="software-name">${escapeHtml(sw.name)} <span class="os-badge os-${sw.os}"><i class="${osIcons[sw.os]}"></i> ${osNames[sw.os]}</span></div>
-              <div class="software-version">v${escapeHtml(sw.version||'1.0.0')}</div>
-            </div>
-          </div>
-          ${sw.previewImage?`<div class="software-preview" data-action="viewPreview" data-src="${escapeHtml(sw.previewImage)}"><img src="${escapeHtml(sw.previewImage)}"></div>`:''}
-          <span class="status-badge status-${sw.status||'working'}">${sw.status||'working'}</span>
-          <div class="dates-info">${getRelativeTime(sw.createdAt)}</div>
-          ${showDownloadCount&&sw.downloads?`<div style="font-size:0.75rem;color:#6ee7b7;"><i class="fas fa-download"></i> ${sw.downloads} Downloads</div>`:''}
-          ${sw.description?`<div style="font-size:0.8rem;color:#cbd5e1;margin:0.3rem 0;">${escapeHtml(sw.description)}</div>`:''}
-          <div class="like-section">
-            <button class="like-btn ${isLiked?'liked':''}" data-action="like" data-swid="${sw.id}"><i class="far fa-thumbs-up"></i> ${likes.length}</button>
-            <button class="dislike-btn ${isDisliked?'disliked':''}" data-action="dislike" data-swid="${sw.id}"><i class="far fa-thumbs-down"></i> ${dislikes.length}</button>
-          </div>
-          <div class="comment-section">
-            ${comments.slice(-2).map(c=>`<div class="comment"><div class="comment-user">${escapeHtml((c.user||'?').split('@')[0])}</div><div class="comment-text">${escapeHtml(c.text)}</div></div>`).join('')}
-            <div class="comment-input">
-              <input type="text" placeholder="Kommentar..." data-swid="${sw.id}" class="commentField">
-              <button class="btn btn-icon btn-sm" data-action="comment" data-swid="${sw.id}"><i class="fas fa-paper-plane"></i></button>
-            </div>
-          </div>
-          <div class="software-actions">
-            <button class="btn btn-primary btn-sm" data-action="download" data-swid="${sw.id}"><i class="fas fa-download"></i> Download</button>
-            ${isAdmin()?`<button class="btn btn-icon btn-sm" data-action="edit" data-swid="${sw.id}"><i class="fas fa-edit"></i></button>`:''}
-          </div>
-        </div>`;
-    }).join('');
-
-    c.querySelectorAll('[data-action="like"]').forEach(b=>b.addEventListener('click',()=>toggleLike(b.dataset.swid)));
-    c.querySelectorAll('[data-action="dislike"]').forEach(b=>b.addEventListener('click',()=>toggleDislike(b.dataset.swid)));
-    c.querySelectorAll('[data-action="comment"]').forEach(b=>b.addEventListener('click',()=>{
-      const inp = c.querySelector(`.commentField[data-swid="${b.dataset.swid}"]`);
-      if(inp&&inp.value.trim()){ addComment(b.dataset.swid,inp.value.trim()); inp.value=''; }
-    }));
-    c.querySelectorAll('[data-action="download"]').forEach(b=>b.addEventListener('click',()=>handleDownload(b.dataset.swid)));
-    c.querySelectorAll('[data-action="edit"]').forEach(b=>b.addEventListener('click',()=>{
-      const sw = software.find(s=>s.id===b.dataset.swid);
-      if(sw) openSoftwareModal(sw);
-    }));
-    c.querySelectorAll('[data-action="viewIcon"],[data-action="viewPreview"]').forEach(el=>{
-      el.addEventListener('click',()=>{ if(el.dataset.src) openImage(el.dataset.src); });
-    });
-  }
-
-  async function toggleLike(id) {
-    if(!currentUser) return alert('Bitte anmelden!');
-    const ref = doc(db,"software",id), sw = software.find(s=>s.id===id);
-    if(!sw) return;
-    const likes = sw.likes||[], uid = currentUser.uid;
-    if(likes.includes(uid)) await updateDoc(ref,{likes:arrayRemove(uid)});
-    else await updateDoc(ref,{likes:arrayUnion(uid),dislikes:arrayRemove(uid)});
-  }
-
-  async function toggleDislike(id) {
-    if(!currentUser) return alert('Bitte anmelden!');
-    const ref = doc(db,"software",id), sw = software.find(s=>s.id===id);
-    if(!sw) return;
-    const dislikes = sw.dislikes||[], uid = currentUser.uid;
-    if(dislikes.includes(uid)) await updateDoc(ref,{dislikes:arrayRemove(uid)});
-    else await updateDoc(ref,{dislikes:arrayUnion(uid),likes:arrayRemove(uid)});
-  }
-
-  async function addComment(id,text) {
-    if(!currentUser) return alert('Bitte anmelden!');
-    await updateDoc(doc(db,"software",id),{comments:arrayUnion({user:currentUser.email,uid:currentUser.uid,text,createdAt:new Date().toISOString()})});
-  }
-
-  async function handleDownload(id) {
-    const sw = software.find(s=>s.id===id);
-    if(!sw) return;
-    if(!checkOS(sw.os)) { alert(`Diese Software ist für ${osNames[sw.os]}, du verwendest ${osNames[detectedOS]}.`); return; }
-    await updateDoc(doc(db,"software",id),{downloads:increment(1)});
-    window.open(sw.link,'_blank');
-  }
-
-  function openImage(src) {
-    document.getElementById('fullImage').src = src;
-    document.getElementById('imageModal').classList.remove('hidden');
-  }
-  document.getElementById('closeImageBtn').addEventListener('click',()=>document.getElementById('imageModal').classList.add('hidden'));
-  document.getElementById('imageModal').addEventListener('click',function(e){if(e.target===this)this.classList.add('hidden');});
-
-  // Software Modal
-  document.getElementById('addSoftwareBtn').addEventListener('click',()=>openSoftwareModal());
-  function openSoftwareModal(sw=null) {
-    document.getElementById('editSwId').value = sw?sw.id:'';
-    document.getElementById('modalTitle').innerHTML = sw?'<i class="fas fa-edit"></i> Software bearbeiten':'<i class="fas fa-plus-circle"></i> Software hinzufügen';
-    document.getElementById('swName').value = sw?sw.name||'':'';
-    document.getElementById('swVersion').value = sw?sw.version||'1.0.0':'1.0.0';
-    document.getElementById('swLink').value = sw?sw.link||'':'';
-    document.getElementById('swStatus').value = sw?sw.status||'working':'working';
-    document.getElementById('swDescription').value = sw?sw.description||'':'';
-    document.querySelectorAll('#osSelector .os-option').forEach(o=>o.classList.toggle('selected',o.dataset.os===(sw?sw.os:'windows')));
-    document.getElementById('swOS').value = sw?sw.os:'windows';
-    document.getElementById('swDepartment').innerHTML = '<option value="">Keine</option>'+departments.map(d=>`<option value="${d.id}" ${sw&&sw.department===d.id?'selected':''}>${escapeHtml(d.name)}</option>`).join('');
-    document.getElementById('iconPreview').innerHTML = sw&&sw.icon?`<img src="${escapeHtml(sw.icon)}">`:'';
-    document.getElementById('removeIconBtn').classList.toggle('hidden',!sw||!sw.icon);
-    document.getElementById('previewImagePreview').innerHTML = sw&&sw.previewImage?`<img src="${escapeHtml(sw.previewImage)}">`:'';
-    document.getElementById('removePreviewBtn').classList.toggle('hidden',!sw||!sw.previewImage);
-    document.getElementById('deleteSwBtn').classList.toggle('hidden',!sw);
-    document.getElementById('softwareModal').classList.remove('hidden');
-  }
-  document.getElementById('cancelSwBtn').addEventListener('click',()=>document.getElementById('softwareModal').classList.add('hidden'));
-  
-  document.getElementById('osSelector').addEventListener('click',e=>{
-    const o = e.target.closest('.os-option');
-    if(!o) return;
-    document.querySelectorAll('#osSelector .os-option').forEach(x=>x.classList.remove('selected'));
-    o.classList.add('selected');
-    document.getElementById('swOS').value = o.dataset.os;
-  });
-
-  document.getElementById('iconUploadArea').addEventListener('click',()=>document.getElementById('iconFileInput').click());
-  document.getElementById('iconFileInput').addEventListener('change',function(e){
-    const f = e.target.files[0]; if(!f) return;
-    const r = new FileReader();
-    r.onload = function(){
-      document.getElementById('iconPreview').innerHTML = `<img src="${r.result}">`;
-      document.getElementById('removeIconBtn').classList.remove('hidden');
-    };
-    r.readAsDataURL(f);
-  });
-  document.getElementById('removeIconBtn').addEventListener('click',()=>{
-    document.getElementById('iconPreview').innerHTML='';
-    document.getElementById('iconFileInput').value='';
-    document.getElementById('removeIconBtn').classList.add('hidden');
-  });
-
-  document.getElementById('previewUploadArea').addEventListener('click',()=>document.getElementById('previewFileInput').click());
-  document.getElementById('previewFileInput').addEventListener('change',function(e){
-    const f = e.target.files[0]; if(!f) return;
-    const r = new FileReader();
-    r.onload = function(){
-      document.getElementById('previewImagePreview').innerHTML = `<img src="${r.result}">`;
-      document.getElementById('removePreviewBtn').classList.remove('hidden');
-    };
-    r.readAsDataURL(f);
-  });
-  document.getElementById('removePreviewBtn').addEventListener('click',()=>{
-    document.getElementById('previewImagePreview').innerHTML='';
-    document.getElementById('previewFileInput').value='';
-    document.getElementById('removePreviewBtn').classList.add('hidden');
-  });
-
-  document.getElementById('saveSwBtn').addEventListener('click',async()=>{
-    const id = document.getElementById('editSwId').value;
-    const name = document.getElementById('swName').value.trim();
-    const link = document.getElementById('swLink').value.trim();
-    const os = document.getElementById('swOS').value;
-    if(!name||!link||!os) return alert('Name, Link und OS erforderlich!');
-    
-    const iconImg = document.getElementById('iconPreview').querySelector('img');
-    const previewImg = document.getElementById('previewImagePreview').querySelector('img');
-    
-    const data = {
-      name, version: document.getElementById('swVersion').value.trim()||'1.0.0', os, link,
-      status: document.getElementById('swStatus').value,
-      department: document.getElementById('swDepartment').value||null,
-      icon: iconImg?iconImg.src:null,
-      previewImage: previewImg?previewImg.src:null,
-      description: document.getElementById('swDescription').value.trim(),
-      lastUpdated: serverTimestamp()
-    };
-    
-    try {
-      if(id) { await updateDoc(doc(db,"software",id),data); }
-      else { data.createdAt=serverTimestamp(); data.downloads=0; data.likes=[]; data.dislikes=[]; data.comments=[]; await addDoc(collection(db,"software"),data); }
-      document.getElementById('softwareModal').classList.add('hidden');
-    } catch(e) { alert('Fehler: '+e.message); }
-  });
-
-  document.getElementById('deleteSwBtn').addEventListener('click',async()=>{
-    const id = document.getElementById('editSwId').value;
-    if(!id||!confirm('Löschen?')) return;
-    await deleteDoc(doc(db,"software",id));
-    document.getElementById('softwareModal').classList.add('hidden');
-  });
-
-  // Department Modal
-  document.getElementById('addDeptBtn').addEventListener('click',()=>openDeptModal());
-  function openDeptModal(dept=null) {
-    document.getElementById('editDeptId').value = dept?dept.id:'';
-    document.getElementById('deptModalTitle').innerHTML = dept?'<i class="fas fa-edit"></i> Abteilung bearbeiten':'<i class="fas fa-plus-circle"></i> Neue Abteilung';
-    document.getElementById('deptName').value = dept?dept.name:'';
-    document.getElementById('deptIcon').value = dept?dept.icon||'fas fa-folder':'fas fa-folder';
-    document.getElementById('deleteDeptBtn').classList.toggle('hidden',!dept);
-    document.getElementById('deptModal').classList.remove('hidden');
-  }
-  document.getElementById('cancelDeptBtn').addEventListener('click',()=>document.getElementById('deptModal').classList.add('hidden'));
-  
-  document.getElementById('saveDeptBtn').addEventListener('click',async()=>{
-    const id = document.getElementById('editDeptId').value;
-    const name = document.getElementById('deptName').value.trim();
-    if(!name) return alert('Name erforderlich!');
-    const data = { name, icon: document.getElementById('deptIcon').value.trim()||'fas fa-folder' };
-    try {
-      if(id) await updateDoc(doc(db,"departments",id),data);
-      else await addDoc(collection(db,"departments"),data);
-      document.getElementById('deptModal').classList.add('hidden');
-    } catch(e) { alert('Fehler: '+e.message); }
-  });
-
-  document.getElementById('deleteDeptBtn').addEventListener('click',async()=>{
-    const id = document.getElementById('editDeptId').value;
-    if(!id||!confirm('Abteilung und Software löschen?')) return;
-    for(const s of software.filter(s=>s.department===id)) await deleteDoc(doc(db,"software",s.id));
-    await deleteDoc(doc(db,"departments",id));
-    document.getElementById('deptModal').classList.add('hidden');
-  });
-
-  // Settings
-  document.getElementById('settingsBtn').addEventListener('click',()=>document.getElementById('settingsPanel').classList.toggle('open'));
-  document.getElementById('closeSettingsBtn').addEventListener('click',()=>document.getElementById('settingsPanel').classList.remove('open'));
-  document.getElementById('showDownloadCountToggle').addEventListener('change',e=>{ showDownloadCount=e.target.checked; renderSoftware(); });
-  document.getElementById('showCompatibleOnlyToggle').addEventListener('change',e=>{ showCompatibleOnly=e.target.checked; renderSoftware(); });
-
-  // Login
-  document.getElementById('loginBtn').addEventListener('click',()=>document.getElementById('loginModal').classList.remove('hidden'));
-  document.getElementById('logoutBtn').addEventListener('click',async()=>{ await signOut(auth); });
-  document.getElementById('cancelLoginBtn').addEventListener('click',()=>document.getElementById('loginModal').classList.add('hidden'));
-  document.getElementById('submitLoginBtn').addEventListener('click',async()=>{
-    try {
-      await signInWithEmailAndPassword(auth,document.getElementById('loginEmail').value,document.getElementById('loginPassword').value);
-      document.getElementById('loginModal').classList.add('hidden');
-    } catch(e) { document.getElementById('loginError').textContent = e.message; }
-  });
-  document.getElementById('googleLoginBtn').addEventListener('click',async()=>{
-    try { await signInWithPopup(auth,googleProvider); document.getElementById('loginModal').classList.add('hidden'); }
-    catch(e) { document.getElementById('loginError').textContent = 'Fehler'; }
-  });
-
-  // Close modals
-  document.querySelectorAll('.modal-overlay').forEach(o=>o.addEventListener('click',function(e){if(e.target===this)this.classList.add('hidden');}));
-  document.addEventListener('keydown',e=>{ if(e.key==='Escape') document.querySelectorAll('.modal-overlay:not(.hidden)').forEach(m=>m.classList.add('hidden')); });
-
-  // Init
-  document.getElementById('detectedOsDisplay').innerHTML = `<i class="${osIcons[detectedOS]}"></i><span>${osNames[detectedOS]}</span>`;
-  loadData();
-</script>
-
-</body>
-</html>
-Das ist jetzt eine SAUBERE, eigenständige Software Hub Seite:
-✅ Nur Software-Management - Kein Code, keine Vermischung
-✅ Link zum Code Hub im Header (https://lzhenweidev.github.io/codehub.html)
-✅ Alle Funktionen repariert:
-
-Software hinzufügen/bearbeiten/löschen
-
-Abteilungen verwalten
-
-Likes & Kommentare
-
-Downloads mit OS-Erkennung
-
-Bild-Upload für Icons/Vorschaubilder
-
-Einstellungen-Panel
-
-Login mit Google
-
-✅ Keine komischen Konsolen-Ausgaben mehr
-✅ Sauberer, kompakter Code
-
-Die Code Hub Seite ist eine komplett separate HTML-Datei (codehub.html) - so wie es sein soll! 🎯
-
-Und das Andere Code Hub html brauch ich auch die neue version.
-Hier ist die komplett überarbeitete, saubere Code Hub HTML-Datei - eigenständig und nur für Code-Snippets:
-
-html
-<!DOCTYPE html>
-<html lang="de">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Code Hub · lzhenwei.dev</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
   <style>
+    /* ========== RESET & FONTS ========== */
     * {
       margin: 0;
       padding: 0;
@@ -1348,7 +22,7 @@ html
       --primary-dark: #6d28d9;
       --primary-light: #a78bfa;
       --bg-deep: #0a0a1a;
-      --bg-card: rgba(20, 15, 50, 0.45);
+      --bg-card: rgba(20, 15, 50, 0.6);
       --bg-code: #1a1a2e;
       --border-color: rgba(139, 92, 246, 0.3);
       --text-primary: #e8e4f0;
@@ -1358,8 +32,20 @@ html
       --warning: #f59e0b;
       --danger: #ef4444;
       --info: #3b82f6;
+      --radius-sm: 12px;
+      --radius-md: 20px;
+      --radius-lg: 30px;
+      --radius-xl: 60px;
+      --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.2);
+      --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.3);
+      --shadow-lg: 0 16px 48px rgba(0, 0, 0, 0.4);
+      --shadow-glow: 0 0 30px rgba(139, 92, 246, 0.3);
+      --transition-fast: 0.2s ease;
+      --transition-normal: 0.3s ease;
+      --transition-slow: 0.5s ease;
     }
     
+    /* ========== BODY ========== */
     body {
       font-family: 'Inter', system-ui, -apple-system, sans-serif;
       background: radial-gradient(circle at 20% 30%, #1a1530 0%, #0d0d1a 50%, #050510 100%);
@@ -1379,19 +65,22 @@ html
       left: -100%;
       background: 
         radial-gradient(circle at 30% 40%, rgba(139, 92, 246, 0.06) 0%, transparent 50%),
-        radial-gradient(circle at 70% 60%, rgba(59, 130, 246, 0.04) 0%, transparent 50%);
-      animation: bgMove 25s ease-in-out infinite;
+        radial-gradient(circle at 70% 60%, rgba(59, 130, 246, 0.04) 0%, transparent 50%),
+        radial-gradient(circle at 50% 80%, rgba(16, 185, 129, 0.03) 0%, transparent 40%);
+      animation: liquidMove 25s ease-in-out infinite;
       pointer-events: none;
       z-index: 0;
     }
     
-    @keyframes bgMove {
-      0%, 100% { transform: translate(0, 0); }
-      50% { transform: translate(-2%, -1%); }
+    @keyframes liquidMove {
+      0%, 100% { transform: translate(0, 0) rotate(0deg); }
+      25% { transform: translate(-2%, -1%) rotate(1deg); }
+      50% { transform: translate(1%, 2%) rotate(-1deg); }
+      75% { transform: translate(2%, -1%) rotate(0.5deg); }
     }
     
     @keyframes fadeInUp {
-      from { opacity: 0; transform: translateY(15px); }
+      from { opacity: 0; transform: translateY(20px); }
       to { opacity: 1; transform: translateY(0); }
     }
     
@@ -1405,10 +94,37 @@ html
       to { opacity: 1; transform: scale(1); }
     }
     
-    ::-webkit-scrollbar { width: 7px; height: 7px; }
-    ::-webkit-scrollbar-track { background: rgba(20, 15, 50, 0.3); border-radius: 10px; }
-    ::-webkit-scrollbar-thumb { background: linear-gradient(135deg, var(--primary), var(--primary-dark)); border-radius: 10px; }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.5; }
+    }
     
+    @keyframes shimmer {
+      0% { background-position: -200% center; }
+      100% { background-position: 200% center; }
+    }
+    
+    /* ========== SCROLLBAR ========== */
+    ::-webkit-scrollbar {
+      width: 8px;
+      height: 8px;
+    }
+    
+    ::-webkit-scrollbar-track {
+      background: rgba(20, 15, 50, 0.3);
+      border-radius: 10px;
+    }
+    
+    ::-webkit-scrollbar-thumb {
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      border-radius: 10px;
+    }
+    
+    ::-webkit-scrollbar-thumb:hover {
+      background: linear-gradient(135deg, var(--primary-light), var(--primary));
+    }
+    
+    /* ========== CONTAINER ========== */
     .container {
       max-width: 1600px;
       margin: 0 auto;
@@ -1422,12 +138,14 @@ html
       justify-content: space-between;
       align-items: center;
       padding: 1.2rem 2rem;
-      background: rgba(20, 15, 50, 0.45);
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
-      border-radius: 60px;
+      background: rgba(20, 15, 50, 0.5);
+      backdrop-filter: blur(20px) saturate(180%);
+      -webkit-backdrop-filter: blur(20px) saturate(180%);
+      border-radius: var(--radius-xl);
       border: 1px solid var(--border-color);
-      margin-bottom: 1.5rem;
+      margin-bottom: 1.8rem;
+      box-shadow: var(--shadow-lg);
+      animation: fadeIn 0.6s ease;
       flex-wrap: wrap;
       gap: 1rem;
     }
@@ -1435,63 +153,115 @@ html
     .header-left {
       display: flex;
       align-items: center;
-      gap: 0.8rem;
+      gap: 1rem;
     }
     
     .logo {
-      width: 48px;
-      height: 48px;
+      width: 52px;
+      height: 52px;
       background: linear-gradient(135deg, var(--primary), #6366f1);
-      border-radius: 14px;
+      border-radius: 16px;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 1.4rem;
+      font-size: 1.5rem;
       color: white;
+      box-shadow: 0 4px 15px rgba(139, 92, 246, 0.3);
     }
     
-    h1 {
+    .header h1 {
       font-size: 1.8rem;
       font-weight: 800;
-      background: linear-gradient(135deg, #c4b5fd, #93c5fd);
+      background: linear-gradient(135deg, #c4b5fd 0%, #93c5fd 50%, #c4b5fd 100%);
+      background-size: 200% auto;
       -webkit-background-clip: text;
       background-clip: text;
       color: transparent;
+      animation: shimmer 3s linear infinite;
+      letter-spacing: -0.5px;
     }
     
     .header-right {
       display: flex;
       align-items: center;
-      gap: 0.7rem;
+      gap: 0.8rem;
       flex-wrap: wrap;
     }
     
+    .user-badge {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.4rem 1rem;
+      background: rgba(139, 92, 246, 0.2);
+      border-radius: 30px;
+      border: 1px solid var(--border-color);
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+    }
+    
+    .user-badge i {
+      font-size: 1rem;
+    }
+    
+    /* ========== BUTTONS ========== */
     .btn {
-      padding: 0.55rem 1.2rem;
-      border-radius: 35px;
+      padding: 0.6rem 1.3rem;
+      border-radius: 30px;
       border: 1px solid var(--border-color);
       background: rgba(76, 29, 149, 0.2);
       backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
       color: var(--text-primary);
       cursor: pointer;
       font-weight: 600;
       font-size: 0.85rem;
-      transition: all 0.3s;
+      transition: all var(--transition-normal);
       display: inline-flex;
       align-items: center;
-      gap: 0.4rem;
+      gap: 0.5rem;
       text-decoration: none;
       white-space: nowrap;
+      font-family: inherit;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .btn::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.08), transparent);
+      transition: left 0.5s;
+    }
+    
+    .btn:hover::before {
+      left: 100%;
     }
     
     .btn:hover {
       background: rgba(139, 92, 246, 0.3);
       transform: translateY(-2px);
       box-shadow: 0 8px 25px rgba(139, 92, 246, 0.25);
+      border-color: rgba(139, 92, 246, 0.5);
+    }
+    
+    .btn:active {
+      transform: translateY(0);
     }
     
     .btn-primary {
       background: linear-gradient(135deg, rgba(139, 92, 246, 0.6), rgba(99, 102, 241, 0.6));
+      border-color: rgba(139, 92, 246, 0.5);
+      font-weight: 700;
+    }
+    
+    .btn-primary:hover {
+      background: linear-gradient(135deg, rgba(139, 92, 246, 0.8), rgba(99, 102, 241, 0.8));
+      box-shadow: 0 8px 30px rgba(139, 92, 246, 0.4);
     }
     
     .btn-success {
@@ -1499,19 +269,19 @@ html
       border-color: rgba(16, 185, 129, 0.5);
     }
     
+    .btn-success:hover {
+      background: rgba(16, 185, 129, 0.5);
+      box-shadow: 0 8px 25px rgba(16, 185, 129, 0.3);
+    }
+    
     .btn-danger {
       background: rgba(239, 68, 68, 0.3);
       border-color: rgba(239, 68, 68, 0.5);
     }
     
-    .btn-software {
-      background: rgba(139, 92, 246, 0.3);
-      border-color: rgba(139, 92, 246, 0.5);
-    }
-    
-    .btn-software:hover {
-      background: rgba(139, 92, 246, 0.5);
-      box-shadow: 0 8px 25px rgba(139, 92, 246, 0.3);
+    .btn-danger:hover {
+      background: rgba(239, 68, 68, 0.5);
+      box-shadow: 0 8px 25px rgba(239, 68, 68, 0.3);
     }
     
     .btn-google {
@@ -1520,62 +290,65 @@ html
     }
     
     .btn-sm {
-      padding: 0.35rem 0.8rem;
+      padding: 0.4rem 0.9rem;
       font-size: 0.78rem;
+      border-radius: 25px;
     }
     
     .btn-icon {
-      width: 36px;
-      height: 36px;
+      width: 38px;
+      height: 38px;
       padding: 0;
       display: flex;
       align-items: center;
       justify-content: center;
       border-radius: 50%;
+      flex-shrink: 0;
     }
     
-    .user-badge {
-      display: flex;
-      align-items: center;
-      gap: 0.4rem;
-      padding: 0.35rem 0.9rem;
-      background: rgba(139, 92, 246, 0.2);
-      border-radius: 30px;
-      border: 1px solid var(--border-color);
-      font-size: 0.82rem;
-      color: var(--text-secondary);
+    .btn-icon i {
+      margin: 0;
     }
     
-    /* ========== STATS ========== */
+    .btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      pointer-events: none;
+    }
+    
+    /* ========== STATS BAR ========== */
     .stats-bar {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-      gap: 0.8rem;
-      margin-bottom: 1.5rem;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 1rem;
+      margin-bottom: 1.8rem;
     }
     
     .stat-card {
-      padding: 1rem;
+      padding: 1.3rem;
       background: var(--bg-card);
       backdrop-filter: blur(15px);
-      border-radius: 18px;
+      -webkit-backdrop-filter: blur(15px);
+      border-radius: var(--radius-md);
       border: 1px solid var(--border-color);
       text-align: center;
-      transition: all 0.3s;
+      transition: all var(--transition-normal);
+      animation: fadeInUp 0.5s ease;
     }
     
     .stat-card:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 10px 30px rgba(139, 92, 246, 0.2);
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-glow);
+      border-color: rgba(139, 92, 246, 0.5);
     }
     
     .stat-icon {
-      font-size: 1.6rem;
-      margin-bottom: 0.4rem;
+      font-size: 1.8rem;
+      margin-bottom: 0.5rem;
     }
     
     .stat-value {
-      font-size: 2rem;
+      font-size: 2.2rem;
       font-weight: 800;
       background: linear-gradient(135deg, var(--primary-light), #93c5fd);
       -webkit-background-clip: text;
@@ -1584,36 +357,107 @@ html
     }
     
     .stat-label {
-      font-size: 0.78rem;
+      font-size: 0.8rem;
       color: var(--text-muted);
-      margin-top: 0.2rem;
+      margin-top: 0.3rem;
+      font-weight: 500;
+    }
+    
+    /* ========== SEARCH ========== */
+    .search-container {
+      position: relative;
+      margin-bottom: 1.5rem;
+    }
+    
+    .search-input {
+      width: 100%;
+      padding: 1rem 1.5rem 1rem 3.2rem;
+      border-radius: 40px;
+      border: 1px solid var(--border-color);
+      background: var(--bg-card);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      color: var(--text-primary);
+      font-size: 0.95rem;
+      font-family: inherit;
+      transition: all var(--transition-normal);
+    }
+    
+    .search-input:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 25px rgba(139, 92, 246, 0.25);
+      background: rgba(20, 15, 50, 0.8);
+    }
+    
+    .search-input::placeholder {
+      color: rgba(139, 127, 181, 0.5);
+      font-weight: 400;
+    }
+    
+    .search-icon {
+      position: absolute;
+      left: 1.2rem;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--text-muted);
+      font-size: 1.1rem;
+      pointer-events: none;
+    }
+    
+    .search-clear {
+      position: absolute;
+      right: 1.2rem;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      cursor: pointer;
+      font-size: 1.1rem;
+      display: none;
+      padding: 5px;
+      border-radius: 50%;
+      transition: all var(--transition-fast);
+    }
+    
+    .search-clear:hover {
+      color: var(--text-primary);
+      background: rgba(139, 92, 246, 0.2);
+    }
+    
+    .search-clear.visible {
+      display: block;
     }
     
     /* ========== LANGUAGE FILTER ========== */
     .language-filter {
       display: flex;
       flex-wrap: wrap;
-      gap: 0.4rem;
-      margin-bottom: 1.2rem;
+      gap: 0.5rem;
+      margin-bottom: 1.5rem;
     }
     
     .lang-tag {
-      padding: 0.45rem 0.9rem;
-      border-radius: 22px;
+      padding: 0.5rem 1rem;
+      border-radius: 25px;
       background: var(--bg-card);
       backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
       border: 1px solid var(--border-color);
       color: var(--text-secondary);
       cursor: pointer;
-      font-size: 0.8rem;
+      font-size: 0.82rem;
       font-weight: 500;
-      transition: all 0.3s;
+      transition: all var(--transition-normal);
+      user-select: none;
       white-space: nowrap;
     }
     
     .lang-tag:hover {
       background: rgba(139, 92, 246, 0.25);
       border-color: var(--primary);
+      transform: translateY(-1px);
     }
     
     .lang-tag.active {
@@ -1621,14 +465,16 @@ html
       border-color: var(--primary);
       color: white;
       font-weight: 700;
+      box-shadow: 0 4px 15px rgba(139, 92, 246, 0.3);
     }
     
     .lang-tag .count {
       background: rgba(0, 0, 0, 0.3);
-      padding: 2px 7px;
-      border-radius: 10px;
-      margin-left: 5px;
-      font-size: 0.7rem;
+      padding: 2px 8px;
+      border-radius: 12px;
+      margin-left: 6px;
+      font-size: 0.72rem;
+      font-weight: 600;
     }
     
     /* ========== SECTION HEADER ========== */
@@ -1636,70 +482,77 @@ html
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin: 1.8rem 0 1rem;
+      margin: 2rem 0 1.2rem;
       flex-wrap: wrap;
-      gap: 0.8rem;
+      gap: 1rem;
     }
     
-    h2 {
-      font-size: 1.5rem;
+    .section-header h2 {
+      font-size: 1.6rem;
       font-weight: 700;
       color: var(--text-secondary);
       display: flex;
       align-items: center;
-      gap: 0.5rem;
+      gap: 0.6rem;
+    }
+    
+    .section-header h2 i {
+      color: var(--primary-light);
     }
     
     /* ========== CODE GRID ========== */
     .code-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
-      gap: 1.2rem;
+      grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+      gap: 1.3rem;
     }
     
     .code-card {
       background: var(--bg-card);
       backdrop-filter: blur(15px);
-      border-radius: 20px;
+      -webkit-backdrop-filter: blur(15px);
+      border-radius: var(--radius-md);
       border: 1px solid var(--border-color);
       overflow: hidden;
-      transition: all 0.3s;
+      transition: all var(--transition-normal);
       animation: fadeInUp 0.4s ease;
+      display: flex;
+      flex-direction: column;
     }
     
     .code-card:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 20px 40px rgba(139, 92, 246, 0.2);
+      transform: translateY(-5px);
+      box-shadow: 0 20px 45px rgba(139, 92, 246, 0.2);
       border-color: rgba(139, 92, 246, 0.5);
     }
     
+    /* Card Header */
     .code-card-header {
-      padding: 0.9rem 1.1rem;
+      padding: 1rem 1.2rem;
       display: flex;
       justify-content: space-between;
       align-items: flex-start;
-      border-bottom: 1px solid rgba(139, 92, 246, 0.12);
-      background: rgba(0, 0, 0, 0.12);
-      gap: 0.6rem;
+      border-bottom: 1px solid rgba(139, 92, 246, 0.15);
+      background: rgba(0, 0, 0, 0.15);
+      gap: 0.8rem;
     }
     
     .code-title-area {
       display: flex;
       align-items: center;
-      gap: 0.7rem;
-      cursor: pointer;
-      flex: 1;
+      gap: 0.8rem;
       min-width: 0;
+      flex: 1;
     }
     
     .language-icon {
-      width: 42px;
-      height: 42px;
-      border-radius: 11px;
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 1.1rem;
+      font-size: 1.2rem;
       font-weight: 700;
       flex-shrink: 0;
     }
@@ -1723,117 +576,201 @@ html
     .lang-shell { background: rgba(76, 175, 80, 0.25); color: #4caf50; }
     .lang-other { background: rgba(139, 92, 246, 0.25); color: #c4b5fd; }
     
+    .code-title-info {
+      min-width: 0;
+    }
+    
     .code-name {
       font-weight: 700;
       color: var(--text-primary);
-      font-size: 1rem;
+      font-size: 1.05rem;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
     }
     
     .code-meta {
-      font-size: 0.72rem;
+      font-size: 0.73rem;
       color: var(--text-muted);
-      margin-top: 2px;
+      margin-top: 3px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
     }
     
+    .code-meta span {
+      display: flex;
+      align-items: center;
+      gap: 3px;
+    }
+    
+    /* Card Preview */
     .code-preview {
-      padding: 0.9rem 1.1rem;
-      max-height: 200px;
+      padding: 1rem 1.2rem;
+      max-height: 220px;
       overflow-y: auto;
       background: var(--bg-code);
       cursor: pointer;
+      transition: all var(--transition-fast);
+      flex: 1;
+    }
+    
+    .code-preview:hover {
+      background: #1e1e35;
     }
     
     .code-preview pre {
       margin: 0;
-      font-family: 'JetBrains Mono', 'Fira Code', monospace;
-      font-size: 0.76rem;
-      line-height: 1.5;
+      font-family: 'JetBrains Mono', 'Fira Code', 'Consolas', monospace;
+      font-size: 0.78rem;
+      line-height: 1.55;
       white-space: pre-wrap;
       word-break: break-all;
+      color: #d4d4d4;
     }
     
     .code-preview code {
       font-family: inherit;
     }
     
+    .code-preview .line-numbers {
+      color: rgba(139, 127, 181, 0.4);
+      user-select: none;
+      margin-right: 0.8rem;
+      display: inline-block;
+      min-width: 1.8rem;
+      text-align: right;
+      font-size: 0.7rem;
+    }
+    
+    /* Card Description */
     .code-description {
-      padding: 0.7rem 1.1rem;
+      padding: 0.8rem 1.2rem;
       color: var(--text-muted);
-      font-size: 0.8rem;
+      font-size: 0.82rem;
+      line-height: 1.4;
       border-top: 1px solid rgba(139, 92, 246, 0.1);
     }
     
+    /* Card Tags */
     .code-tags {
-      padding: 0.5rem 1.1rem;
+      padding: 0.5rem 1.2rem;
       display: flex;
       flex-wrap: wrap;
-      gap: 0.3rem;
+      gap: 0.4rem;
     }
     
     .code-tag {
-      padding: 2px 9px;
-      border-radius: 12px;
+      padding: 3px 10px;
+      border-radius: 15px;
       font-size: 0.7rem;
+      font-weight: 500;
       background: rgba(139, 92, 246, 0.18);
       color: var(--text-secondary);
+      border: 1px solid rgba(139, 92, 246, 0.2);
     }
     
+    /* Card Footer */
     .code-card-footer {
-      padding: 0.6rem 1.1rem;
+      padding: 0.7rem 1.2rem;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      border-top: 1px solid rgba(139, 92, 246, 0.12);
-      background: rgba(0, 0, 0, 0.08);
+      border-top: 1px solid rgba(139, 92, 246, 0.15);
+      background: rgba(0, 0, 0, 0.1);
     }
     
     .code-stats {
       display: flex;
-      gap: 0.8rem;
-      font-size: 0.75rem;
+      gap: 1rem;
+      font-size: 0.78rem;
       color: var(--text-muted);
     }
     
     .code-stats span {
       display: flex;
       align-items: center;
-      gap: 3px;
+      gap: 4px;
     }
     
-    .like-btn, .copy-btn {
+    .code-stats i {
+      font-size: 0.85rem;
+    }
+    
+    .code-actions-right {
+      display: flex;
+      gap: 0.4rem;
+      align-items: center;
+    }
+    
+    .like-button {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      padding: 0.35rem 0.8rem;
+      border-radius: 20px;
+      border: 1px solid rgba(239, 68, 68, 0.3);
+      background: rgba(239, 68, 68, 0.1);
+      color: var(--text-muted);
+      cursor: pointer;
+      font-size: 0.8rem;
+      font-weight: 600;
+      transition: all var(--transition-fast);
+      font-family: inherit;
+    }
+    
+    .like-button:hover {
+      background: rgba(239, 68, 68, 0.25);
+      border-color: rgba(239, 68, 68, 0.5);
+      color: #fca5a5;
+      transform: scale(1.05);
+    }
+    
+    .like-button.liked {
+      background: rgba(239, 68, 68, 0.3);
+      border-color: rgba(239, 68, 68, 0.6);
+      color: #fca5a5;
+      animation: pulse 0.4s ease;
+    }
+    
+    .copy-button {
       display: flex;
       align-items: center;
       gap: 4px;
-      padding: 0.3rem 0.7rem;
-      border-radius: 15px;
+      padding: 0.35rem 0.7rem;
+      border-radius: 20px;
       border: 1px solid rgba(139, 92, 246, 0.3);
       background: transparent;
       color: var(--text-muted);
       cursor: pointer;
-      font-size: 0.75rem;
-      transition: all 0.2s;
+      font-size: 0.78rem;
+      transition: all var(--transition-fast);
+      font-family: inherit;
     }
     
-    .like-btn:hover { background: rgba(239, 68, 68, 0.2); border-color: rgba(239, 68, 68, 0.4); color: #fca5a5; }
-    .copy-btn:hover { background: rgba(139, 92, 246, 0.2); border-color: var(--primary); color: var(--text-secondary); }
+    .copy-button:hover {
+      background: rgba(139, 92, 246, 0.2);
+      border-color: var(--primary);
+      color: var(--text-secondary);
+    }
     
-    .like-btn.liked { background: rgba(239, 68, 68, 0.3); border-color: rgba(239, 68, 68, 0.5); color: #fca5a5; }
-    .copy-btn.copied { background: rgba(16, 185, 129, 0.2); border-color: var(--success); color: var(--success); }
-    
-    .code-actions-right {
-      display: flex;
-      gap: 0.3rem;
+    .copy-button.copied {
+      background: rgba(16, 185, 129, 0.2);
+      border-color: var(--success);
+      color: var(--success);
     }
     
     /* ========== MODALS ========== */
     .modal-overlay {
       position: fixed;
-      top: 0; left: 0; right: 0; bottom: 0;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
       background: rgba(0, 0, 0, 0.85);
       backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
       z-index: 999;
       display: flex;
       align-items: center;
@@ -1842,60 +779,70 @@ html
     }
     
     .modal {
-      background: rgba(25, 18, 55, 0.97);
+      background: rgba(25, 18, 55, 0.98);
       backdrop-filter: blur(30px);
-      padding: 1.8rem;
-      border-radius: 25px;
+      -webkit-backdrop-filter: blur(30px);
+      padding: 2rem;
+      border-radius: var(--radius-lg);
       border: 1px solid var(--border-color);
       max-width: 700px;
       width: 95%;
-      max-height: 88vh;
+      max-height: 90vh;
       overflow-y: auto;
       color: var(--text-primary);
+      box-shadow: var(--shadow-lg), var(--shadow-glow);
       animation: scaleIn 0.3s ease;
+      position: relative;
     }
     
-    .modal-lg { max-width: 1000px; }
+    .modal-lg {
+      max-width: 1000px;
+    }
     
     .modal h3 {
-      font-size: 1.3rem;
+      font-size: 1.4rem;
+      font-weight: 700;
       color: var(--text-secondary);
-      margin-bottom: 1.2rem;
+      margin-bottom: 1.5rem;
       display: flex;
       align-items: center;
-      gap: 0.5rem;
+      gap: 0.6rem;
+    }
+    
+    .modal h3 i {
+      color: var(--primary-light);
     }
     
     .input-group {
-      margin-bottom: 1rem;
+      margin-bottom: 1.2rem;
     }
     
     .input-group label {
       display: block;
-      margin-bottom: 0.3rem;
+      margin-bottom: 0.4rem;
       color: var(--text-muted);
       font-weight: 600;
-      font-size: 0.82rem;
+      font-size: 0.85rem;
     }
     
     .input-group input,
     .input-group select,
     .input-group textarea {
       width: 100%;
-      padding: 0.6rem 0.9rem;
-      border-radius: 12px;
+      padding: 0.75rem 1rem;
+      border-radius: var(--radius-sm);
       border: 1px solid var(--border-color);
       background: rgba(15, 10, 35, 0.7);
       color: var(--text-primary);
-      font-size: 0.88rem;
+      font-size: 0.9rem;
       font-family: inherit;
-      transition: all 0.2s;
+      transition: all var(--transition-fast);
     }
     
     .input-group textarea {
-      min-height: 280px;
+      min-height: 300px;
       font-family: 'JetBrains Mono', 'Fira Code', monospace;
-      font-size: 0.8rem;
+      font-size: 0.82rem;
       line-height: 1.5;
       resize: vertical;
       tab-size: 2;
@@ -1907,53 +854,88 @@ html
       outline: none;
       border-color: var(--primary);
       box-shadow: 0 0 15px rgba(139, 92, 246, 0.2);
+      background: rgba(15, 10, 35, 0.9);
     }
     
-    .input-group select option { background: #1a1530; color: var(--text-primary); }
+    .input-group select option {
+      background: #1a1530;
+      color: var(--text-primary);
+    }
     
+    .modal-actions {
+      display: flex;
+      gap: 0.8rem;
+      justify-content: flex-end;
+      margin-top: 1.5rem;
+      flex-wrap: wrap;
+    }
+    
+    /* ========== FILE UPLOAD AREA ========== */
     .file-upload-area {
       border: 2px dashed var(--border-color);
-      border-radius: 12px;
-      padding: 1.5rem;
+      border-radius: var(--radius-sm);
+      padding: 1.8rem;
       text-align: center;
       cursor: pointer;
-      transition: all 0.2s;
+      transition: all var(--transition-normal);
       background: rgba(15, 10, 35, 0.4);
-      margin-bottom: 0.7rem;
+      margin-bottom: 0.8rem;
     }
     
     .file-upload-area:hover {
       border-color: var(--primary);
-      background: rgba(139, 92, 246, 0.06);
+      background: rgba(139, 92, 246, 0.08);
     }
     
-    .file-upload-area i { font-size: 2rem; color: var(--primary-light); margin-bottom: 0.4rem; display: block; }
-    .file-upload-area p { color: var(--text-muted); font-size: 0.82rem; }
-    .file-upload-area.drag-over { border-color: var(--success); background: rgba(16, 185, 129, 0.06); }
-    
-    .modal-actions {
-      display: flex;
-      gap: 0.6rem;
-      justify-content: flex-end;
-      margin-top: 1.2rem;
+    .file-upload-area.drag-over {
+      border-color: var(--success);
+      background: rgba(16, 185, 129, 0.08);
     }
     
-    /* ========== CODE VIEWER ========== */
+    .file-upload-area i {
+      font-size: 2.5rem;
+      color: var(--primary-light);
+      margin-bottom: 0.5rem;
+      display: block;
+    }
+    
+    .file-upload-area p {
+      color: var(--text-muted);
+      font-size: 0.85rem;
+    }
+    
+    .file-upload-area .supported-formats {
+      font-size: 0.72rem;
+      color: rgba(139, 127, 181, 0.5);
+      margin-top: 0.3rem;
+    }
+    
+    /* ========== CODE VIEWER MODAL ========== */
     .code-viewer-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 0.9rem 1.1rem;
+      padding: 1rem 1.2rem;
       background: rgba(0, 0, 0, 0.3);
-      border-radius: 12px 12px 0 0;
+      border-radius: var(--radius-sm) var(--radius-sm) 0 0;
       flex-wrap: wrap;
-      gap: 0.6rem;
+      gap: 0.8rem;
+    }
+    
+    .code-viewer-header .viewer-info h3 {
+      margin: 0;
+      font-size: 1.2rem;
+    }
+    
+    .code-viewer-header .viewer-info span {
+      font-size: 0.8rem;
+      color: var(--text-muted);
     }
     
     .code-viewer-content {
       background: var(--bg-code);
-      padding: 1.3rem;
-      border-radius: 0 0 12px 12px;
+      padding: 1.5rem;
+      border-radius: 0 0 var(--radius-sm) var(--radius-sm);
       max-height: 60vh;
       overflow-y: auto;
     }
@@ -1961,47 +943,157 @@ html
     .code-viewer-content pre {
       margin: 0;
       font-family: 'JetBrains Mono', 'Fira Code', monospace;
-      font-size: 0.85rem;
+      font-size: 0.88rem;
       line-height: 1.6;
       tab-size: 2;
+    }
+    
+    .code-viewer-content code {
+      font-family: inherit;
     }
     
     /* ========== EMPTY STATE ========== */
     .empty-state {
       text-align: center;
-      padding: 3rem;
+      padding: 4rem 2rem;
       color: var(--text-muted);
       grid-column: 1 / -1;
     }
     
-    .empty-state i { font-size: 3rem; margin-bottom: 0.8rem; opacity: 0.4; display: block; }
+    .empty-state i {
+      font-size: 3.5rem;
+      margin-bottom: 1rem;
+      opacity: 0.4;
+      display: block;
+    }
     
+    .empty-state p {
+      font-size: 1.1rem;
+      font-weight: 500;
+    }
+    
+    .empty-state small {
+      color: rgba(139, 127, 181, 0.5);
+      font-size: 0.85rem;
+    }
+    
+    /* ========== TOAST ========== */
+    .toast {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      padding: 0.9rem 1.4rem;
+      border-radius: var(--radius-sm);
+      background: rgba(25, 18, 55, 0.97);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid var(--border-color);
+      color: var(--text-primary);
+      z-index: 1000;
+      animation: slideInRight 0.3s ease, fadeOut 0.3s ease 2.5s forwards;
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      font-weight: 500;
+      font-size: 0.9rem;
+      box-shadow: var(--shadow-lg);
+      max-width: 400px;
+    }
+    
+    .toast.success { border-color: var(--success); }
+    .toast.error { border-color: var(--danger); }
+    .toast.warning { border-color: var(--warning); }
+    
+    @keyframes slideInRight {
+      from { transform: translateX(100%); opacity: 0; }
+      to { transform: translateX(0); opacity: 1; }
+    }
+    
+    @keyframes fadeOut {
+      to { opacity: 0; transform: translateX(50px); }
+    }
+    
+    /* ========== UTILITY ========== */
     .hidden { display: none !important; }
+    .text-center { text-align: center; }
+    .text-muted { color: var(--text-muted); }
+    .mb-1 { margin-bottom: 0.5rem; }
+    .mb-2 { margin-bottom: 1rem; }
     
-    @media (max-width: 768px) {
-      body { padding: 0.7rem; }
-      .header { padding: 1rem; border-radius: 35px; }
-      h1 { font-size: 1.3rem; }
-      .code-grid { grid-template-columns: 1fr; }
+    /* ========== RESPONSIVE ========== */
+    @media (max-width: 900px) {
+      body { padding: 0.8rem; }
+      
+      .header { 
+        padding: 1rem 1.2rem; 
+        border-radius: var(--radius-lg);
+      }
+      
+      .header h1 { font-size: 1.3rem; }
+      
+      .code-grid { 
+        grid-template-columns: 1fr; 
+      }
+      
+      .stats-bar { 
+        grid-template-columns: repeat(2, 1fr); 
+      }
+      
+      .modal { 
+        padding: 1.5rem; 
+      }
+      
+      .code-viewer-content { 
+        max-height: 40vh; 
+      }
+    }
+    
+    @media (max-width: 500px) {
+      .header { 
+        flex-direction: column; 
+        gap: 0.8rem; 
+        text-align: center;
+      }
+      
+      .header-left, .header-right { 
+        width: 100%; 
+        justify-content: center; 
+      }
+      
+      .stats-bar { 
+        grid-template-columns: 1fr 1fr; 
+        gap: 0.5rem;
+      }
+      
+      .stat-value { font-size: 1.5rem; }
+      .stat-card { padding: 0.8rem; }
+      
+      .language-filter { gap: 0.3rem; }
+      .lang-tag { 
+        padding: 0.35rem 0.7rem; 
+        font-size: 0.72rem; 
+      }
     }
   </style>
 </head>
 <body>
 
 <div class="container">
-  <!-- HEADER -->
+  <!-- ========== HEADER ========== -->
   <div class="header">
     <div class="header-left">
-      <div class="logo"><i class="fas fa-code"></i></div>
+      <div class="logo">
+        <i class="fas fa-code"></i>
+      </div>
       <h1>CodeHub</h1>
     </div>
     
     <div class="header-right">
-      <a href="https://lzhenweidev.github.io/softwarehub.html" class="btn btn-software btn-sm">
+      <a href="software-hub.html" class="btn btn-sm" title="Zum Software Hub">
         <i class="fas fa-cube"></i> Software Hub
       </a>
       
-      <div class="user-badge">
+      <div class="user-badge" id="userBadge">
         <i class="fas fa-user-circle"></i>
         <span id="userDisplay">Gast</span>
       </div>
@@ -2016,7 +1108,7 @@ html
     </div>
   </div>
 
-  <!-- STATS -->
+  <!-- ========== STATS ========== -->
   <div class="stats-bar">
     <div class="stat-card">
       <div class="stat-icon">📁</div>
@@ -2026,7 +1118,7 @@ html
     <div class="stat-card">
       <div class="stat-icon">🌐</div>
       <div class="stat-value" id="totalLanguages">0</div>
-      <div class="stat-label">Sprachen</div>
+      <div class="stat-label">Programmiersprachen</div>
     </div>
     <div class="stat-card">
       <div class="stat-icon">📝</div>
@@ -2040,30 +1132,39 @@ html
     </div>
   </div>
 
-  <!-- LANGUAGE FILTER -->
-  <div class="language-filter" id="languageFilter"></div>
-
-  <!-- SECTION HEADER -->
-  <div class="section-header">
-    <h2 id="sectionTitle"><i class="fas fa-code-branch"></i> Alle Code-Snippets</h2>
-    <button class="btn btn-success btn-sm hidden" id="addCodeBtn">
-      <i class="fas fa-plus"></i> Code hinzufügen
+  <!-- ========== SEARCH ========== -->
+  <div class="search-container">
+    <i class="fas fa-search search-icon"></i>
+    <input type="text" class="search-input" id="searchInput" placeholder="Code durchsuchen... (Titel, Sprache, Beschreibung, Tags)">
+    <button class="search-clear" id="searchClearBtn" title="Suche löschen">
+      <i class="fas fa-times"></i>
     </button>
   </div>
 
-  <!-- CODE GRID -->
+  <!-- ========== LANGUAGE FILTER ========== -->
+  <div class="language-filter" id="languageFilter"></div>
+
+  <!-- ========== SECTION HEADER ========== -->
+  <div class="section-header">
+    <h2 id="sectionTitle"><i class="fas fa-code-branch"></i> Alle Code-Snippets</h2>
+    <button class="btn btn-success hidden" id="addCodeBtn">
+      <i class="fas fa-plus"></i> Neuen Code hinzufügen
+    </button>
+  </div>
+
+  <!-- ========== CODE GRID ========== -->
   <div class="code-grid" id="codeGrid">
     <div class="empty-state">
       <i class="fas fa-spinner fa-pulse"></i>
-      <p>Lade Code-Snippets...</p>
+      <p>Code-Snippets werden geladen...</p>
     </div>
   </div>
 </div>
 
-<!-- ADD/EDIT CODE MODAL -->
+<!-- ========== ADD/EDIT CODE MODAL ========== -->
 <div class="modal-overlay hidden" id="codeModal">
   <div class="modal modal-lg">
-    <h3 id="modalTitle"><i class="fas fa-plus-circle"></i> Code hinzufügen</h3>
+    <h3 id="modalTitle"><i class="fas fa-plus-circle"></i> Neuen Code hinzufügen</h3>
     <input type="hidden" id="editCodeId">
     
     <div class="input-group">
@@ -2101,6 +1202,7 @@ html
       <div class="file-upload-area" id="fileDropArea">
         <i class="fas fa-cloud-upload-alt"></i>
         <p><strong>Code hier einfügen</strong> oder Datei per Drag & Drop hochladen</p>
+        <p class="supported-formats">.py .js .ts .cpp .c .java .lua .rs .go .rb .php .swift .kt .html .css .sql .sh .txt .json .xml .yml</p>
         <input type="file" id="codeFileInput" accept=".py,.js,.ts,.cpp,.c,.java,.lua,.rs,.go,.rb,.php,.swift,.kt,.html,.css,.sql,.sh,.txt,.json,.xml,.yml,.yaml,.md" hidden>
       </div>
       <textarea id="codeContent" rows="16" placeholder="// Füge deinen Code hier ein..." spellcheck="false"></textarea>
@@ -2117,25 +1219,37 @@ html
     </div>
     
     <div class="modal-actions">
-      <button class="btn" id="cancelCodeBtn"><i class="fas fa-times"></i> Abbrechen</button>
-      <button class="btn btn-danger hidden" id="deleteCodeBtn"><i class="fas fa-trash"></i> Löschen</button>
-      <button class="btn btn-primary" id="saveCodeBtn"><i class="fas fa-save"></i> Speichern</button>
+      <button class="btn" id="cancelCodeBtn">
+        <i class="fas fa-times"></i> Abbrechen
+      </button>
+      <button class="btn btn-danger hidden" id="deleteCodeBtn">
+        <i class="fas fa-trash"></i> Löschen
+      </button>
+      <button class="btn btn-primary" id="saveCodeBtn">
+        <i class="fas fa-save"></i> Speichern
+      </button>
     </div>
   </div>
 </div>
 
-<!-- CODE VIEWER MODAL -->
+<!-- ========== CODE VIEWER MODAL ========== -->
 <div class="modal-overlay hidden" id="codeViewerModal">
   <div class="modal modal-lg" style="padding: 0; overflow: hidden;">
     <div class="code-viewer-header">
-      <div>
+      <div class="viewer-info">
         <h3 id="viewerTitle" style="margin:0;">Code anzeigen</h3>
-        <span id="viewerLanguage" style="font-size:0.8rem;color:var(--text-muted);"></span>
+        <span id="viewerLanguage"></span>
       </div>
-      <div style="display:flex;gap:0.3rem;flex-wrap:wrap;">
-        <button class="btn btn-sm" id="copyFullCodeBtn"><i class="fas fa-copy"></i> Kopieren</button>
-        <button class="btn btn-sm" id="downloadCodeBtn"><i class="fas fa-download"></i> Download</button>
-        <button class="btn btn-sm" id="closeViewerBtn"><i class="fas fa-times"></i> Schließen</button>
+      <div style="display: flex; gap: 0.4rem; flex-wrap: wrap;">
+        <button class="btn btn-sm" id="copyFullCodeBtn">
+          <i class="fas fa-copy"></i> Kopieren
+        </button>
+        <button class="btn btn-sm" id="downloadCodeBtn">
+          <i class="fas fa-download"></i> Download
+        </button>
+        <button class="btn btn-sm" id="closeViewerBtn">
+          <i class="fas fa-times"></i> Schließen
+        </button>
       </div>
     </div>
     <div class="code-viewer-content">
@@ -2144,14 +1258,14 @@ html
   </div>
 </div>
 
-<!-- LOGIN MODAL -->
+<!-- ========== LOGIN MODAL ========== -->
 <div class="modal-overlay hidden" id="loginModal">
-  <div class="modal" style="max-width:400px;">
+  <div class="modal" style="max-width: 420px;">
     <h3><i class="fas fa-sign-in-alt"></i> Anmelden</h3>
     
     <div class="input-group">
       <label>E-Mail</label>
-      <input type="email" id="loginEmail" placeholder="deine@email.de">
+      <input type="email" id="loginEmail" placeholder="deine@email.de" value="lzhenwei.dev@gmail.com">
     </div>
     
     <div class="input-group">
@@ -2159,21 +1273,36 @@ html
       <input type="password" id="loginPassword" placeholder="••••••••">
     </div>
     
-    <div id="loginError" style="color:#fca5a5;font-size:0.82rem;margin-bottom:0.8rem;"></div>
+    <div id="loginError" style="color: #fca5a5; font-size: 0.85rem; margin-bottom: 1rem;"></div>
     
-    <div style="display:flex;flex-direction:column;gap:0.6rem;">
-      <button class="btn btn-primary" id="submitLoginBtn" style="width:100%;"><i class="fas fa-key"></i> Anmelden</button>
-      <button class="btn btn-google" id="googleLoginBtn" style="width:100%;"><i class="fab fa-google"></i> Mit Google</button>
-      <button class="btn" id="cancelLoginBtn" style="width:100%;"><i class="fas fa-times"></i> Abbrechen</button>
+    <div style="display: flex; flex-direction: column; gap: 0.7rem;">
+      <button class="btn btn-primary" id="submitLoginBtn" style="width: 100%;">
+        <i class="fas fa-key"></i> Anmelden
+      </button>
+      <button class="btn btn-google" id="googleLoginBtn" style="width: 100%;">
+        <i class="fab fa-google"></i> Mit Google anmelden
+      </button>
+      <button class="btn" id="cancelLoginBtn" style="width: 100%;">
+        <i class="fas fa-times"></i> Abbrechen
+      </button>
     </div>
   </div>
 </div>
 
 <script type="module">
+  // ============ IMPORTS ============
   import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js";
-  import { getFirestore, collection, addDoc, updateDoc, deleteDoc, doc, onSnapshot, query, orderBy, serverTimestamp, increment, arrayUnion, arrayRemove } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
-  import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged, GoogleAuthProvider, signInWithPopup } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-auth.js";
+  import { 
+    getFirestore, collection, addDoc, updateDoc, deleteDoc, doc, 
+    onSnapshot, query, orderBy, serverTimestamp, increment, 
+    arrayUnion, arrayRemove 
+  } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
+  import { 
+    getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged, 
+    GoogleAuthProvider, signInWithPopup 
+  } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-auth.js";
 
+  // ============ FIREBASE CONFIG ============
   const firebaseConfig = {
     apiKey: "AIzaSyDjXg0y3vnuk8L7xBh9d_W80kzmWjilheo",
     authDomain: "software-lzw.firebaseapp.com",
@@ -2190,50 +1319,85 @@ html
   
   const ADMIN_EMAIL = 'lzhenwei.dev@gmail.com';
 
+  // ============ LANGUAGE CONFIG ============
   const languageConfig = {
-    python: { name:'Python', icon:'🐍', cssClass:'lang-python', ext:'.py', hljs:'python' },
-    javascript: { name:'JavaScript', icon:'💛', cssClass:'lang-javascript', ext:'.js', hljs:'javascript' },
-    typescript: { name:'TypeScript', icon:'💙', cssClass:'lang-typescript', ext:'.ts', hljs:'typescript' },
-    cpp: { name:'C++', icon:'⚙️', cssClass:'lang-cpp', ext:'.cpp', hljs:'cpp' },
-    c: { name:'C', icon:'🔧', cssClass:'lang-c', ext:'.c', hljs:'c' },
-    java: { name:'Java', icon:'☕', cssClass:'lang-java', ext:'.java', hljs:'java' },
-    lua: { name:'Lua', icon:'🌙', cssClass:'lang-lua', ext:'.lua', hljs:'lua' },
-    rust: { name:'Rust', icon:'🦀', cssClass:'lang-rust', ext:'.rs', hljs:'rust' },
-    go: { name:'Go', icon:'🔵', cssClass:'lang-go', ext:'.go', hljs:'go' },
-    ruby: { name:'Ruby', icon:'💎', cssClass:'lang-ruby', ext:'.rb', hljs:'ruby' },
-    php: { name:'PHP', icon:'🐘', cssClass:'lang-php', ext:'.php', hljs:'php' },
-    swift: { name:'Swift', icon:'🍎', cssClass:'lang-swift', ext:'.swift', hljs:'swift' },
-    kotlin: { name:'Kotlin', icon:'💜', cssClass:'lang-kotlin', ext:'.kt', hljs:'kotlin' },
-    html: { name:'HTML', icon:'🌐', cssClass:'lang-html', ext:'.html', hljs:'xml' },
-    css: { name:'CSS', icon:'🎨', cssClass:'lang-css', ext:'.css', hljs:'css' },
-    sql: { name:'SQL', icon:'🗄️', cssClass:'lang-sql', ext:'.sql', hljs:'sql' },
-    shell: { name:'Shell', icon:'💻', cssClass:'lang-shell', ext:'.sh', hljs:'bash' },
-    other: { name:'Andere', icon:'📄', cssClass:'lang-other', ext:'.txt', hljs:'plaintext' }
+    python: { name: 'Python', icon: '🐍', cssClass: 'lang-python', extension: '.py', hljs: 'python' },
+    javascript: { name: 'JavaScript', icon: '💛', cssClass: 'lang-javascript', extension: '.js', hljs: 'javascript' },
+    typescript: { name: 'TypeScript', icon: '💙', cssClass: 'lang-typescript', extension: '.ts', hljs: 'typescript' },
+    cpp: { name: 'C++', icon: '⚙️', cssClass: 'lang-cpp', extension: '.cpp', hljs: 'cpp' },
+    c: { name: 'C', icon: '🔧', cssClass: 'lang-c', extension: '.c', hljs: 'c' },
+    java: { name: 'Java', icon: '☕', cssClass: 'lang-java', extension: '.java', hljs: 'java' },
+    lua: { name: 'Lua', icon: '🌙', cssClass: 'lang-lua', extension: '.lua', hljs: 'lua' },
+    rust: { name: 'Rust', icon: '🦀', cssClass: 'lang-rust', extension: '.rs', hljs: 'rust' },
+    go: { name: 'Go', icon: '🔵', cssClass: 'lang-go', extension: '.go', hljs: 'go' },
+    ruby: { name: 'Ruby', icon: '💎', cssClass: 'lang-ruby', extension: '.rb', hljs: 'ruby' },
+    php: { name: 'PHP', icon: '🐘', cssClass: 'lang-php', extension: '.php', hljs: 'php' },
+    swift: { name: 'Swift', icon: '🍎', cssClass: 'lang-swift', extension: '.swift', hljs: 'swift' },
+    kotlin: { name: 'Kotlin', icon: '💜', cssClass: 'lang-kotlin', extension: '.kt', hljs: 'kotlin' },
+    html: { name: 'HTML', icon: '🌐', cssClass: 'lang-html', extension: '.html', hljs: 'xml' },
+    css: { name: 'CSS', icon: '🎨', cssClass: 'lang-css', extension: '.css', hljs: 'css' },
+    sql: { name: 'SQL', icon: '🗄️', cssClass: 'lang-sql', extension: '.sql', hljs: 'sql' },
+    shell: { name: 'Shell', icon: '💻', cssClass: 'lang-shell', extension: '.sh', hljs: 'bash' },
+    other: { name: 'Andere', icon: '📄', cssClass: 'lang-other', extension: '.txt', hljs: 'plaintext' }
   };
 
+  // ============ FILE EXTENSION MAPPING ============
   const extensionMap = {
-    '.py':'python','.js':'javascript','.ts':'typescript','.cpp':'cpp','.c':'c','.h':'c',
-    '.java':'java','.lua':'lua','.rs':'rust','.go':'go','.rb':'ruby','.php':'php',
-    '.swift':'swift','.kt':'kotlin','.html':'html','.css':'css','.sql':'sql','.sh':'shell',
-    '.json':'javascript','.xml':'html','.yml':'other','.yaml':'other','.md':'other','.txt':'other'
+    '.py': 'python', '.js': 'javascript', '.ts': 'typescript',
+    '.cpp': 'cpp', '.cc': 'cpp', '.cxx': 'cpp', '.c': 'c', '.h': 'c',
+    '.java': 'java', '.lua': 'lua', '.rs': 'rust',
+    '.go': 'go', '.rb': 'ruby', '.php': 'php',
+    '.swift': 'swift', '.kt': 'kotlin', '.kts': 'kotlin',
+    '.html': 'html', '.htm': 'html', '.css': 'css',
+    '.sql': 'sql', '.sh': 'shell', '.bash': 'shell',
+    '.json': 'javascript', '.xml': 'html', '.yml': 'other', '.yaml': 'other',
+    '.md': 'other', '.txt': 'other'
   };
 
-  let currentUser = null, allCodes = [], selectedLanguage = 'all';
+  // ============ STATE ============
+  let currentUser = null;
+  let allCodes = [];
+  let selectedLanguage = 'all';
+  let searchQuery = '';
 
-  function isAdmin() { return currentUser && currentUser.email === ADMIN_EMAIL; }
-  function escapeHtml(t) { if(!t) return ''; const d = document.createElement('div'); d.textContent = t; return d.innerHTML; }
-  
-  function getRelativeTime(ts) {
-    if(!ts) return '';
-    const d = ts?.toDate ? ts.toDate() : new Date(ts);
-    const diff = Math.floor((new Date()-d)/1000);
-    if(diff<60) return `vor ${diff}s`;
-    if(diff<3600) return `vor ${Math.floor(diff/60)}min`;
-    if(diff<86400) return `vor ${Math.floor(diff/3600)}h`;
-    return d.toLocaleDateString('de-DE');
+  // ============ UTILITY FUNCTIONS ============
+  function isAdmin() {
+    return currentUser && currentUser.email === ADMIN_EMAIL;
   }
 
-  onAuthStateChanged(auth, user => {
+  function escapeHtml(text) {
+    if (!text) return '';
+    const div = document.createElement('div');
+    div.textContent = text;
+    return div.innerHTML;
+  }
+
+  function getRelativeTime(ts) {
+    if (!ts) return '';
+    const date = ts?.toDate ? ts.toDate() : new Date(ts);
+    const now = new Date();
+    const diff = Math.floor((now - date) / 1000);
+    
+    if (diff < 10) return 'gerade eben';
+    if (diff < 60) return `vor ${diff}s`;
+    if (diff < 3600) return `vor ${Math.floor(diff / 60)}min`;
+    if (diff < 86400) return `vor ${Math.floor(diff / 3600)}h`;
+    if (diff < 604800) return `vor ${Math.floor(diff / 86400)}d`;
+    if (diff < 2592000) return `vor ${Math.floor(diff / 604800)} Wochen`;
+    return date.toLocaleDateString('de-DE', { day: '2-digit', month: '2-digit', year: 'numeric' });
+  }
+
+  function showToast(message, type = 'info') {
+    const icons = { success: 'check-circle', error: 'times-circle', warning: 'exclamation-triangle', info: 'info-circle' };
+    const toast = document.createElement('div');
+    toast.className = `toast ${type}`;
+    toast.innerHTML = `<i class="fas fa-${icons[type] || icons.info}"></i> ${escapeHtml(message)}`;
+    document.body.appendChild(toast);
+    setTimeout(() => toast.remove(), 2800);
+  }
+
+  // ============ AUTH STATE ============
+  onAuthStateChanged(auth, (user) => {
     currentUser = user;
     document.getElementById('userDisplay').textContent = user ? user.email.split('@')[0] : 'Gast';
     document.getElementById('loginBtn').classList.toggle('hidden', !!user);
@@ -2242,9 +1406,55 @@ html
     loadCodes();
   });
 
+  // ============ LOGIN/LOGOUT ============
+  document.getElementById('loginBtn').addEventListener('click', () => {
+    document.getElementById('loginModal').classList.remove('hidden');
+    document.getElementById('loginError').textContent = '';
+  });
+
+  document.getElementById('logoutBtn').addEventListener('click', async () => {
+    await signOut(auth);
+    showToast('Erfolgreich abgemeldet 👋', 'info');
+  });
+
+  document.getElementById('cancelLoginBtn').addEventListener('click', () => {
+    document.getElementById('loginModal').classList.add('hidden');
+  });
+
+  document.getElementById('submitLoginBtn').addEventListener('click', async () => {
+    const email = document.getElementById('loginEmail').value.trim();
+    const password = document.getElementById('loginPassword').value;
+    
+    if (!email || !password) {
+      document.getElementById('loginError').textContent = 'Bitte E-Mail und Passwort eingeben';
+      return;
+    }
+    
+    try {
+      await signInWithEmailAndPassword(auth, email, password);
+      document.getElementById('loginModal').classList.add('hidden');
+      showToast('Erfolgreich angemeldet! 👋', 'success');
+    } catch (error) {
+      document.getElementById('loginError').textContent = 
+        error.code === 'auth/invalid-credential' ? 'Ungültige Anmeldedaten' : error.message;
+    }
+  });
+
+  document.getElementById('googleLoginBtn').addEventListener('click', async () => {
+    try {
+      await signInWithPopup(auth, googleProvider);
+      document.getElementById('loginModal').classList.add('hidden');
+      showToast('Mit Google angemeldet! 🎉', 'success');
+    } catch (error) {
+      document.getElementById('loginError').textContent = 'Google-Anmeldung fehlgeschlagen';
+    }
+  });
+
+  // ============ LOAD CODES ============
   function loadCodes() {
-    onSnapshot(query(collection(db,"codes"),orderBy("createdAt","desc")), s => {
-      allCodes = s.docs.map(d=>({id:d.id,...d.data()}));
+    const q = query(collection(db, "codes"), orderBy("createdAt", "desc"));
+    onSnapshot(q, (snap) => {
+      allCodes = snap.docs.map(d => ({ id: d.id, ...d.data() }));
       renderLanguageFilter();
       renderCodes();
       updateStats();
@@ -2253,227 +1463,499 @@ html
 
   function updateStats() {
     document.getElementById('totalCodes').textContent = allCodes.length;
-    document.getElementById('totalLanguages').textContent = new Set(allCodes.map(c=>c.language)).size;
-    document.getElementById('totalLines').textContent = allCodes.reduce((s,c)=>s+(c.content||'').split('\n').length,0);
-    document.getElementById('totalLikes').textContent = allCodes.reduce((s,c)=>s+(c.likes||[]).length,0);
+    
+    const languages = new Set(allCodes.map(c => c.language).filter(Boolean));
+    document.getElementById('totalLanguages').textContent = languages.size;
+    
+    const totalLines = allCodes.reduce((sum, c) => {
+      return sum + (typeof c.content === 'string' ? c.content.split('\n').length : 0);
+    }, 0);
+    document.getElementById('totalLines').textContent = totalLines.toLocaleString('de-DE');
+    
+    const totalLikes = allCodes.reduce((sum, c) => sum + (Array.isArray(c.likes) ? c.likes.length : 0), 0);
+    document.getElementById('totalLikes').textContent = totalLikes;
   }
 
+  // ============ RENDER LANGUAGE FILTER ============
   function renderLanguageFilter() {
-    const c = document.getElementById('languageFilter');
-    const counts = {};
-    allCodes.forEach(x => { if(x.language) counts[x.language] = (counts[x.language]||0)+1; });
+    const container = document.getElementById('languageFilter');
+    const languageCounts = {};
     
-    let h = `<div class="lang-tag ${selectedLanguage==='all'?'active':''}" data-lang="all">🌐 Alle <span class="count">${allCodes.length}</span></div>`;
-    Object.entries(counts).sort((a,b)=>b[1]-a[1]).forEach(([lang,count]) => {
-      const cfg = languageConfig[lang]||languageConfig.other;
-      h += `<div class="lang-tag ${selectedLanguage===lang?'active':''}" data-lang="${lang}">${cfg.icon} ${cfg.name} <span class="count">${count}</span></div>`;
+    allCodes.forEach(c => {
+      if (c.language) {
+        languageCounts[c.language] = (languageCounts[c.language] || 0) + 1;
+      }
     });
-    c.innerHTML = h;
-    
-    c.querySelectorAll('.lang-tag').forEach(tag => {
+
+    let html = `<div class="lang-tag ${selectedLanguage === 'all' ? 'active' : ''}" data-lang="all">
+      🌐 Alle <span class="count">${allCodes.length}</span>
+    </div>`;
+
+    const sorted = Object.entries(languageCounts).sort((a, b) => b[1] - a[1]);
+    sorted.forEach(([lang, count]) => {
+      const config = languageConfig[lang] || languageConfig.other;
+      html += `<div class="lang-tag ${selectedLanguage === lang ? 'active' : ''}" data-lang="${lang}">
+        ${config.icon} ${config.name} <span class="count">${count}</span>
+      </div>`;
+    });
+
+    container.innerHTML = html;
+
+    container.querySelectorAll('.lang-tag').forEach(tag => {
       tag.addEventListener('click', () => {
         selectedLanguage = tag.dataset.lang;
-        document.getElementById('sectionTitle').innerHTML = selectedLanguage==='all' ? '<i class="fas fa-code-branch"></i> Alle Code-Snippets' : `<i class="fas fa-code"></i> ${languageConfig[selectedLanguage]?.name||selectedLanguage}`;
+        document.getElementById('sectionTitle').innerHTML = selectedLanguage === 'all'
+          ? '<i class="fas fa-code-branch"></i> Alle Code-Snippets'
+          : `<i class="fas fa-code"></i> ${languageConfig[selectedLanguage]?.name || selectedLanguage}`;
         renderLanguageFilter();
         renderCodes();
       });
     });
   }
 
+  // ============ RENDER CODES ============
   function renderCodes() {
-    const c = document.getElementById('codeGrid');
-    let f = [...allCodes];
-    if(selectedLanguage!=='all') f = f.filter(x=>x.language===selectedLanguage);
+    const container = document.getElementById('codeGrid');
     
-    if(!f.length) { c.innerHTML = '<div class="empty-state"><i class="fas fa-inbox"></i><p>Keine Code-Snippets</p></div>'; return; }
+    let filtered = [...allCodes];
+    
+    if (selectedLanguage !== 'all') {
+      filtered = filtered.filter(c => c.language === selectedLanguage);
+    }
+    
+    if (searchQuery) {
+      const q = searchQuery.toLowerCase();
+      filtered = filtered.filter(c =>
+        (c.title || '').toLowerCase().includes(q) ||
+        (c.description || '').toLowerCase().includes(q) ||
+        (c.language || '').toLowerCase().includes(q) ||
+        (Array.isArray(c.tags) && c.tags.some(t => t.toLowerCase().includes(q)))
+      );
+    }
 
-    c.innerHTML = f.map(code => {
-      const cfg = languageConfig[code.language]||languageConfig.other;
-      const likes = code.likes||[], tags = code.tags||[], content = code.content||'';
-      const isLiked = currentUser?likes.includes(currentUser.uid):false;
-      const preview = content.substring(0,350);
-      
-      return `
-        <div class="code-card">
-          <div class="code-card-header">
-            <div class="code-title-area" data-action="view" data-codeid="${code.id}">
-              <div class="language-icon ${cfg.cssClass}">${cfg.icon}</div>
-              <div>
-                <div class="code-name" title="${escapeHtml(code.title||'Unbenannt')}">${escapeHtml(code.title||'Unbenannt')}</div>
-                <div class="code-meta">${cfg.name} · ${content.split('\n').length} Zeilen · ${getRelativeTime(code.createdAt)}</div>
+    if (filtered.length === 0) {
+      container.innerHTML = `
+        <div class="empty-state">
+          <i class="fas fa-search"></i>
+          <p>Keine Code-Snippets gefunden</p>
+          <small>${searchQuery ? 'Versuche andere Suchbegriffe' : 'Füge neuen Code hinzu'}</small>
+        </div>`;
+      return;
+    }
+
+    container.innerHTML = filtered.map(code => createCodeCard(code)).join('');
+    attachCardListeners(container);
+    
+    // Highlight code in previews
+    container.querySelectorAll('pre code').forEach(block => {
+      if (window.hljs) {
+        hljs.highlightElement(block);
+      }
+    });
+  }
+
+  function createCodeCard(code) {
+    const config = languageConfig[code.language] || languageConfig.other;
+    const likes = Array.isArray(code.likes) ? code.likes : [];
+    const comments = Array.isArray(code.comments) ? code.comments : [];
+    const tags = Array.isArray(code.tags) ? code.tags : [];
+    const content = typeof code.content === 'string' ? code.content : '';
+    const lines = content.split('\n').length;
+    const preview = content.substring(0, 400);
+    const isLiked = currentUser ? likes.includes(currentUser.uid) : false;
+    const authorName = code.author ? code.author.split('@')[0] : 'Unbekannt';
+
+    // Generate line numbers for preview
+    const previewLines = preview.split('\n');
+    const numberedPreview = previewLines.map((line, i) => 
+      `<span class="line-numbers">${i + 1}</span>${escapeHtml(line)}`
+    ).join('\n');
+
+    return `
+      <div class="code-card" data-codeid="${code.id}">
+        <div class="code-card-header">
+          <div class="code-title-area" data-action="view" data-codeid="${code.id}" style="cursor:pointer;">
+            <div class="language-icon ${config.cssClass}">${config.icon}</div>
+            <div class="code-title-info">
+              <div class="code-name" title="${escapeHtml(code.title || 'Unbenannt')}">${escapeHtml(code.title || 'Unbenannt')}</div>
+              <div class="code-meta">
+                <span>${config.name}</span>
+                <span>·</span>
+                <span><i class="far fa-file-code"></i> ${lines} Zeilen</span>
+                <span>·</span>
+                <span title="${getRelativeTime(code.createdAt)}"><i class="far fa-clock"></i> ${getRelativeTime(code.createdAt)}</span>
               </div>
             </div>
-            ${isAdmin()?`<button class="btn btn-icon btn-sm" data-action="edit" data-codeid="${code.id}"><i class="fas fa-pen"></i></button>`:''}
           </div>
-          
-          <div class="code-preview" data-action="view" data-codeid="${code.id}">
-            <pre><code class="language-${cfg.hljs}">${escapeHtml(preview)}${content.length>350?'\n// ...':''}</code></pre>
+          ${isAdmin() ? `
+            <button class="btn btn-icon btn-sm" data-action="edit" data-codeid="${code.id}" title="Bearbeiten" style="flex-shrink:0;">
+              <i class="fas fa-pen"></i>
+            </button>
+          ` : ''}
+        </div>
+        
+        <div class="code-preview" data-action="view" data-codeid="${code.id}">
+          <pre><code class="language-${config.hljs}">${numberedPreview}${content.length > 400 ? '\n<span style="color: var(--text-muted);">// ... Code gekürzt, klicken zum Anzeigen</span>' : ''}</code></pre>
+        </div>
+        
+        ${code.description ? `
+          <div class="code-description">
+            ${escapeHtml(code.description.substring(0, 150))}${code.description.length > 150 ? '...' : ''}
           </div>
-          
-          ${code.description?`<div class="code-description">${escapeHtml(code.description.substring(0,120))}${code.description.length>120?'...':''}</div>`:''}
-          
-          ${tags.length?`<div class="code-tags">${tags.slice(0,5).map(t=>`<span class="code-tag">#${escapeHtml(t)}</span>`).join('')}</div>`:''}
-          
-          <div class="code-card-footer">
-            <div class="code-stats">
-              <span><i class="far fa-eye"></i> ${code.views||0}</span>
-              <span><i class="far fa-copy"></i> ${code.copies||0}</span>
-            </div>
-            <div class="code-actions-right">
-              <button class="copy-btn" data-action="copy" data-codeid="${code.id}"><i class="far fa-copy"></i> Kopieren</button>
-              <button class="like-btn ${isLiked?'liked':''}" data-action="like" data-codeid="${code.id}"><i class="${isLiked?'fas':'far'} fa-heart"></i> ${likes.length}</button>
-            </div>
+        ` : ''}
+        
+        ${tags.length > 0 ? `
+          <div class="code-tags">
+            ${tags.slice(0, 5).map(t => `<span class="code-tag">#${escapeHtml(t)}</span>`).join('')}
+            ${tags.length > 5 ? `<span class="code-tag">+${tags.length - 5} mehr</span>` : ''}
           </div>
-        </div>`;
-    }).join('');
+        ` : ''}
+        
+        <div class="code-card-footer">
+          <div class="code-stats">
+            <span title="Aufrufe"><i class="far fa-eye"></i> ${code.views || 0}</span>
+            <span title="Kopien"><i class="far fa-copy"></i> ${code.copies || 0}</span>
+            <span title="Kommentare"><i class="far fa-comment"></i> ${comments.length}</span>
+          </div>
+          <div class="code-actions-right">
+            <button class="copy-button" data-action="copy" data-codeid="${code.id}">
+              <i class="far fa-copy"></i> Kopieren
+            </button>
+            <button class="like-button ${isLiked ? 'liked' : ''}" data-action="like" data-codeid="${code.id}">
+              <i class="${isLiked ? 'fas' : 'far'} fa-heart"></i> ${likes.length}
+            </button>
+          </div>
+        </div>
+      </div>
+    `;
+  }
 
-    c.querySelectorAll('[data-action="view"]').forEach(el=>el.addEventListener('click',()=>viewCode(el.dataset.codeid)));
-    c.querySelectorAll('[data-action="copy"]').forEach(el=>el.addEventListener('click',e=>{e.stopPropagation();copyCode(el.dataset.codeid,el);}));
-    c.querySelectorAll('[data-action="like"]').forEach(el=>el.addEventListener('click',e=>{e.stopPropagation();toggleLike(el.dataset.codeid);}));
-    c.querySelectorAll('[data-action="edit"]').forEach(el=>el.addEventListener('click',e=>{e.stopPropagation();const cd=allCodes.find(x=>x.id===el.dataset.codeid);if(cd)openCodeModal(cd);}));
+  function attachCardListeners(container) {
+    // View code
+    container.querySelectorAll('[data-action="view"]').forEach(el => {
+      el.addEventListener('click', () => viewCode(el.dataset.codeid));
+    });
+
+    // Copy code
+    container.querySelectorAll('[data-action="copy"]').forEach(el => {
+      el.addEventListener('click', (e) => {
+        e.stopPropagation();
+        copyCode(el.dataset.codeid, el);
+      });
+    });
+
+    // Like code
+    container.querySelectorAll('[data-action="like"]').forEach(el => {
+      el.addEventListener('click', (e) => {
+        e.stopPropagation();
+        toggleLike(el.dataset.codeid);
+      });
+    });
+
+    // Edit code
+    container.querySelectorAll('[data-action="edit"]').forEach(el => {
+      el.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const code = allCodes.find(c => c.id === el.dataset.codeid);
+        if (code) openCodeModal(code);
+      });
+    });
+  }
+
+  // ============ VIEW CODE ============
+  function viewCode(codeId) {
+    const code = allCodes.find(c => c.id === codeId);
+    if (!code) return;
+
+    const config = languageConfig[code.language] || languageConfig.other;
+    const content = typeof code.content === 'string' ? code.content : '';
+    const lines = content.split('\n').length;
     
-    c.querySelectorAll('pre code').forEach(block => { if(window.hljs) hljs.highlightElement(block); });
-  }
-
-  function viewCode(id) {
-    const code = allCodes.find(c=>c.id===id);
-    if(!code) return;
-    const cfg = languageConfig[code.language]||languageConfig.other;
-    document.getElementById('viewerTitle').textContent = code.title||'Code';
-    document.getElementById('viewerLanguage').textContent = `${cfg.icon} ${cfg.name} · ${(code.content||'').split('\n').length} Zeilen`;
-    const el = document.getElementById('viewerCode');
-    el.textContent = code.content||'';
-    el.className = `language-${cfg.hljs} hljs`;
-    el.removeAttribute('data-highlighted');
+    document.getElementById('viewerTitle').textContent = code.title || 'Code anzeigen';
+    document.getElementById('viewerLanguage').textContent = `${config.icon} ${config.name} · ${lines} Zeilen · Autor: ${(code.author || 'Unbekannt').split('@')[0]}`;
+    
+    const codeElement = document.getElementById('viewerCode');
+    codeElement.textContent = content;
+    codeElement.className = `language-${config.hljs} hljs`;
+    codeElement.removeAttribute('data-highlighted');
+    
     document.getElementById('codeViewerModal').classList.remove('hidden');
-    if(window.hljs) hljs.highlightElement(el);
-    updateDoc(doc(db,"codes",id),{views:increment(1)}).catch(()=>{});
-  }
-
-  async function copyCode(id, btn) {
-    const code = allCodes.find(c=>c.id===id);
-    if(!code) return;
-    await navigator.clipboard.writeText(code.content||'');
-    if(btn) {
-      const orig = btn.innerHTML;
-      btn.classList.add('copied');
-      btn.innerHTML = '<i class="fas fa-check"></i> Kopiert!';
-      setTimeout(()=>{btn.classList.remove('copied');btn.innerHTML=orig;},2000);
+    
+    // Highlight
+    if (window.hljs) {
+      hljs.highlightElement(codeElement);
     }
-    updateDoc(doc(db,"codes",id),{copies:increment(1)}).catch(()=>{});
+    
+    // Increment views
+    updateDoc(doc(db, "codes", codeId), { views: increment(1) }).catch(() => {});
   }
 
-  async function toggleLike(id) {
-    if(!currentUser) return alert('Bitte anmelden!');
-    const ref = doc(db,"codes",id), code = allCodes.find(c=>c.id===id);
-    if(!code) return;
-    const likes = code.likes||[], uid = currentUser.uid;
-    if(likes.includes(uid)) await updateDoc(ref,{likes:arrayRemove(uid)});
-    else await updateDoc(ref,{likes:arrayUnion(uid)});
+  // ============ COPY CODE ============
+  async function copyCode(codeId, buttonElement) {
+    const code = allCodes.find(c => c.id === codeId);
+    if (!code) return;
+
+    try {
+      await navigator.clipboard.writeText(typeof code.content === 'string' ? code.content : '');
+      
+      if (buttonElement) {
+        const originalHTML = buttonElement.innerHTML;
+        buttonElement.classList.add('copied');
+        buttonElement.innerHTML = '<i class="fas fa-check"></i> Kopiert!';
+        setTimeout(() => {
+          buttonElement.classList.remove('copied');
+          buttonElement.innerHTML = originalHTML;
+        }, 2000);
+      }
+      
+      updateDoc(doc(db, "codes", codeId), { copies: increment(1) }).catch(() => {});
+      showToast('Code in Zwischenablage kopiert! 📋', 'success');
+    } catch (err) {
+      showToast('Fehler beim Kopieren ❌', 'error');
+    }
   }
 
-  // Code Modal
-  document.getElementById('addCodeBtn').addEventListener('click',()=>openCodeModal());
-  function openCodeModal(code=null) {
-    document.getElementById('editCodeId').value = code?code.id:'';
-    document.getElementById('modalTitle').innerHTML = code?'<i class="fas fa-edit"></i> Code bearbeiten':'<i class="fas fa-plus-circle"></i> Code hinzufügen';
-    document.getElementById('codeTitle').value = code?code.title||'':'';
-    document.getElementById('codeLanguage').value = code?code.language||'':'';
-    document.getElementById('codeContent').value = code?code.content||'':'';
-    document.getElementById('codeDescription').value = code?code.description||'':'';
-    document.getElementById('codeTags').value = code?(code.tags||[]).join(', '):'';
-    document.getElementById('deleteCodeBtn').classList.toggle('hidden',!code);
+  // ============ TOGGLE LIKE ============
+  async function toggleLike(codeId) {
+    if (!currentUser) {
+      showToast('Bitte anmelden zum Liken 🔐', 'warning');
+      return;
+    }
+
+    const codeRef = doc(db, "codes", codeId);
+    const code = allCodes.find(c => c.id === codeId);
+    if (!code) return;
+
+    const likes = Array.isArray(code.likes) ? [...code.likes] : [];
+    const uid = currentUser.uid;
+
+    try {
+      if (likes.includes(uid)) {
+        await updateDoc(codeRef, { likes: arrayRemove(uid) });
+      } else {
+        await updateDoc(codeRef, { likes: arrayUnion(uid) });
+      }
+    } catch (error) {
+      console.error('Like error:', error);
+      showToast('Fehler beim Liken', 'error');
+    }
+  }
+
+  // ============ CODE MODAL ============
+  document.getElementById('addCodeBtn').addEventListener('click', () => openCodeModal());
+
+  function openCodeModal(code = null) {
+    document.getElementById('editCodeId').value = code ? code.id : '';
+    document.getElementById('modalTitle').innerHTML = code 
+      ? '<i class="fas fa-edit"></i> Code bearbeiten' 
+      : '<i class="fas fa-plus-circle"></i> Neuen Code hinzufügen';
+    document.getElementById('codeTitle').value = code ? (code.title || '') : '';
+    document.getElementById('codeLanguage').value = code ? (code.language || '') : '';
+    document.getElementById('codeContent').value = code ? (typeof code.content === 'string' ? code.content : '') : '';
+    document.getElementById('codeDescription').value = code ? (code.description || '') : '';
+    document.getElementById('codeTags').value = code ? (Array.isArray(code.tags) ? code.tags.join(', ') : '') : '';
+    document.getElementById('deleteCodeBtn').classList.toggle('hidden', !code);
     document.getElementById('codeModal').classList.remove('hidden');
   }
-  document.getElementById('cancelCodeBtn').addEventListener('click',()=>document.getElementById('codeModal').classList.add('hidden'));
 
-  document.getElementById('saveCodeBtn').addEventListener('click',async()=>{
+  document.getElementById('cancelCodeBtn').addEventListener('click', () => {
+    document.getElementById('codeModal').classList.add('hidden');
+  });
+
+  // ============ SAVE CODE ============
+  document.getElementById('saveCodeBtn').addEventListener('click', async () => {
     const id = document.getElementById('editCodeId').value;
     const title = document.getElementById('codeTitle').value.trim();
     const language = document.getElementById('codeLanguage').value;
     const content = document.getElementById('codeContent').value;
-    if(!title||!language||!content) return alert('Titel, Sprache und Code erforderlich!');
+    
+    if (!title) {
+      showToast('Bitte einen Titel eingeben', 'warning');
+      return;
+    }
+    if (!language) {
+      showToast('Bitte eine Programmiersprache wählen', 'warning');
+      return;
+    }
+    if (!content.trim()) {
+      showToast('Bitte Code einfügen', 'warning');
+      return;
+    }
+
+    const tagsStr = document.getElementById('codeTags').value.trim();
     
     const data = {
-      title, language, content,
+      title,
+      language,
+      content,
       description: document.getElementById('codeDescription').value.trim(),
-      tags: document.getElementById('codeTags').value.split(',').map(t=>t.trim()).filter(t=>t),
-      author: currentUser?.email||'Gast',
+      tags: tagsStr ? tagsStr.split(',').map(t => t.trim()).filter(t => t.length > 0 && t.length <= 30) : [],
+      author: currentUser?.email || 'Gast',
       lastUpdated: serverTimestamp()
     };
+
+    try {
+      if (id) {
+        await updateDoc(doc(db, "codes", id), data);
+        showToast('Code erfolgreich aktualisiert! ✅', 'success');
+      } else {
+        data.createdAt = serverTimestamp();
+        data.views = 0;
+        data.copies = 0;
+        data.likes = [];
+        data.comments = [];
+        await addDoc(collection(db, "codes"), data);
+        showToast('Neuer Code hinzugefügt! 🎉', 'success');
+      }
+      document.getElementById('codeModal').classList.add('hidden');
+    } catch (error) {
+      console.error('Save error:', error);
+      showToast('Fehler beim Speichern: ' + error.message, 'error');
+    }
+  });
+
+  // ============ DELETE CODE ============
+  document.getElementById('deleteCodeBtn').addEventListener('click', async () => {
+    const id = document.getElementById('editCodeId').value;
+    if (!id) return;
+    
+    if (!confirm('Möchtest du diesen Code wirklich löschen? Diese Aktion kann nicht rückgängig gemacht werden.')) return;
     
     try {
-      if(id) { await updateDoc(doc(db,"codes",id),data); }
-      else { data.createdAt=serverTimestamp(); data.views=0; data.copies=0; data.likes=[]; data.comments=[]; await addDoc(collection(db,"codes"),data); }
+      await deleteDoc(doc(db, "codes", id));
       document.getElementById('codeModal').classList.add('hidden');
-    } catch(e) { alert('Fehler: '+e.message); }
+      showToast('Code gelöscht 🗑️', 'info');
+    } catch (error) {
+      showToast('Fehler beim Löschen', 'error');
+    }
   });
 
-  document.getElementById('deleteCodeBtn').addEventListener('click',async()=>{
-    const id = document.getElementById('editCodeId').value;
-    if(!id||!confirm('Löschen?')) return;
-    await deleteDoc(doc(db,"codes",id));
-    document.getElementById('codeModal').classList.add('hidden');
-  });
-
-  // File upload
+  // ============ FILE UPLOAD (DRAG & DROP) ============
   const dropArea = document.getElementById('fileDropArea');
   const fileInput = document.getElementById('codeFileInput');
-  
-  dropArea.addEventListener('click',()=>fileInput.click());
-  dropArea.addEventListener('dragover',e=>{e.preventDefault();dropArea.classList.add('drag-over');});
-  dropArea.addEventListener('dragleave',()=>dropArea.classList.remove('drag-over'));
-  dropArea.addEventListener('drop',e=>{
+
+  dropArea.addEventListener('click', () => fileInput.click());
+
+  dropArea.addEventListener('dragover', (e) => {
+    e.preventDefault();
+    dropArea.classList.add('drag-over');
+  });
+
+  dropArea.addEventListener('dragleave', () => {
+    dropArea.classList.remove('drag-over');
+  });
+
+  dropArea.addEventListener('drop', (e) => {
     e.preventDefault();
     dropArea.classList.remove('drag-over');
-    if(e.dataTransfer.files[0]) readFile(e.dataTransfer.files[0]);
+    const file = e.dataTransfer.files[0];
+    if (file) processFile(file);
   });
-  fileInput.addEventListener('change',e=>{if(e.target.files[0]) readFile(e.target.files[0]);});
 
-  function readFile(file) {
-    const ext = '.'+file.name.split('.').pop().toLowerCase();
+  fileInput.addEventListener('change', (e) => {
+    const file = e.target.files[0];
+    if (file) processFile(file);
+  });
+
+  function processFile(file) {
+    const extension = '.' + file.name.split('.').pop().toLowerCase();
+    const detectedLang = extensionMap[extension];
+    
     const reader = new FileReader();
-    reader.onload = e => {
+    reader.onload = (e) => {
       document.getElementById('codeContent').value = e.target.result;
-      if(extensionMap[ext] && !document.getElementById('codeLanguage').value) document.getElementById('codeLanguage').value = extensionMap[ext];
-      if(!document.getElementById('codeTitle').value) document.getElementById('codeTitle').value = file.name.replace(/\.[^.]+$/,'');
+      
+      if (detectedLang && !document.getElementById('codeLanguage').value) {
+        document.getElementById('codeLanguage').value = detectedLang;
+      }
+      
+      if (!document.getElementById('codeTitle').value) {
+        document.getElementById('codeTitle').value = file.name.replace(/\.[^/.]+$/, '');
+      }
+      
+      showToast(`Datei "${file.name}" erfolgreich geladen 📁`, 'success');
     };
+    
+    reader.onerror = () => {
+      showToast('Fehler beim Lesen der Datei', 'error');
+    };
+    
     reader.readAsText(file);
   }
 
-  // Viewer modal
-  document.getElementById('closeViewerBtn').addEventListener('click',()=>document.getElementById('codeViewerModal').classList.add('hidden'));
-  document.getElementById('copyFullCodeBtn').addEventListener('click',async()=>{
-    await navigator.clipboard.writeText(document.getElementById('viewerCode').textContent);
-  });
-  document.getElementById('downloadCodeBtn').addEventListener('click',()=>{
-    const blob = new Blob([document.getElementById('viewerCode').textContent],{type:'text/plain'});
-    const a = document.createElement('a');
-    a.href = URL.createObjectURL(blob);
-    a.download = 'code.txt';
-    a.click();
+  // ============ CODE VIEWER MODAL ============
+  document.getElementById('closeViewerBtn').addEventListener('click', () => {
+    document.getElementById('codeViewerModal').classList.add('hidden');
   });
 
-  // Login
-  document.getElementById('loginBtn').addEventListener('click',()=>document.getElementById('loginModal').classList.remove('hidden'));
-  document.getElementById('logoutBtn').addEventListener('click',async()=>{await signOut(auth);});
-  document.getElementById('cancelLoginBtn').addEventListener('click',()=>document.getElementById('loginModal').classList.add('hidden'));
-  document.getElementById('submitLoginBtn').addEventListener('click',async()=>{
+  document.getElementById('copyFullCodeBtn').addEventListener('click', async () => {
+    const code = document.getElementById('viewerCode').textContent;
     try {
-      await signInWithEmailAndPassword(auth,document.getElementById('loginEmail').value,document.getElementById('loginPassword').value);
-      document.getElementById('loginModal').classList.add('hidden');
-    } catch(e) { document.getElementById('loginError').textContent = e.message; }
-  });
-  document.getElementById('googleLoginBtn').addEventListener('click',async()=>{
-    try { await signInWithPopup(auth,googleProvider); document.getElementById('loginModal').classList.add('hidden'); }
-    catch(e) { document.getElementById('loginError').textContent = 'Fehler'; }
+      await navigator.clipboard.writeText(code);
+      showToast('Kompletter Code kopiert! 📋', 'success');
+    } catch (err) {
+      showToast('Fehler beim Kopieren', 'error');
+    }
   });
 
-  // Close modals
-  document.querySelectorAll('.modal-overlay').forEach(o=>o.addEventListener('click',function(e){if(e.target===this)this.classList.add('hidden');}));
-  document.addEventListener('keydown',e=>{if(e.key==='Escape') document.querySelectorAll('.modal-overlay:not(.hidden)').forEach(m=>m.classList.add('hidden'));});
+  document.getElementById('downloadCodeBtn').addEventListener('click', () => {
+    const code = document.getElementById('viewerCode').textContent;
+    const title = document.getElementById('viewerTitle').textContent || 'code';
+    const sanitizedTitle = title.replace(/[^a-z0-9äöüß]/gi, '_').substring(0, 50);
+    
+    const blob = new Blob([code], { type: 'text/plain;charset=utf-8' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `${sanitizedTitle}.txt`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+    
+    showToast('Code heruntergeladen 💾', 'success');
+  });
 
+  // ============ CLOSE MODALS ============
+  document.querySelectorAll('.modal-overlay').forEach(overlay => {
+    overlay.addEventListener('click', function(e) {
+      if (e.target === this) this.classList.add('hidden');
+    });
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+      document.querySelectorAll('.modal-overlay:not(.hidden)').forEach(m => m.classList.add('hidden'));
+    }
+  });
+
+  // ============ SEARCH ============
+  const searchInput = document.getElementById('searchInput');
+  const searchClearBtn = document.getElementById('searchClearBtn');
+  
+  let searchTimeout;
+  searchInput.addEventListener('input', (e) => {
+    clearTimeout(searchTimeout);
+    searchTimeout = setTimeout(() => {
+      searchQuery = e.target.value.trim();
+      searchClearBtn.classList.toggle('visible', searchQuery.length > 0);
+      renderCodes();
+    }, 300);
+  });
+
+  searchClearBtn.addEventListener('click', () => {
+    searchInput.value = '';
+    searchQuery = '';
+    searchClearBtn.classList.remove('visible');
+    renderCodes();
+    searchInput.focus();
+  });
+
+  // ============ INIT ============
   loadCodes();
+  console.log('✅ Code Hub erfolgreich initialisiert');
+  console.log('📁 Unterstützte Sprachen:', Object.keys(languageConfig).length);
+  console.log('👑 Admin:', ADMIN_EMAIL);
 </script>
 
 </body>
