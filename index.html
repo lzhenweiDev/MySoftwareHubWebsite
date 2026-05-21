@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>lzhenweidev · Projekte & Apps</title>
+  <!-- Font Awesome 6 für Icons (SoftRepo-Stil) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background: linear-gradient(145deg, #0b0c10 0%, #1a1c24 100%);
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      color: #e4e6ed;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      padding: 2rem 1.5rem;
+      margin: 0;
+    }
+
+    .card {
+      background: rgba(26, 28, 36, 0.8);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      border-radius: 3.5rem;
+      padding: 2.8rem 2.5rem;
+      max-width: 880px;
+      width: 100%;
+      box-shadow: 0 30px 55px rgba(0, 0, 0, 0.7), 0 0 0 1px rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      transition: all 0.2s ease;
+    }
+
+    h1 {
+      font-size: 3.2rem;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      background: linear-gradient(to right, #b3e0ff, #a0d8ff, #6eb5ff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 0.4rem;
+      display: flex;
+      align-items: center;
+      gap: 0.7rem;
+      flex-wrap: wrap;
+    }
+
+    h1 i {
+      background: none;
+      -webkit-text-fill-color: #6eb5ff;
+      font-size: 2.7rem;
+    }
+
+    .subtitle {
+      font-size: 1.25rem;
+      color: #9aa4b8;
+      margin-bottom: 2.8rem;
+      border-left: 4px solid #3b82f6;
+      padding-left: 1.3rem;
+      font-weight: 400;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 1.7rem;
+      margin: 2.2rem 0 2.5rem;
+    }
+
+    .hub-card {
+      background: #21242e;
+      border-radius: 2.2rem;
+      padding: 1.8rem 1.5rem;
+      box-shadow: 0 12px 24px -8px rgba(0,0,0,0.6);
+      border: 1px solid rgba(255, 255, 255, 0.07);
+      transition: transform 0.25s ease, border-color 0.2s, box-shadow 0.2s;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      text-decoration: none;
+      color: inherit;
+    }
+
+    .hub-card:hover {
+      transform: translateY(-5px);
+      border-color: rgba(59, 130, 246, 0.6);
+      box-shadow: 0 22px 30px -10px rgba(0, 160, 255, 0.2);
+    }
+
+    .hub-icon {
+      font-size: 2.5rem;
+      background: #2f3341;
+      width: 60px;
+      height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 1.5rem;
+      margin-bottom: 1.3rem;
+      color: #90b4f0;
+    }
+
+    .hub-card h2 {
+      font-size: 1.7rem;
+      font-weight: 600;
+      margin-bottom: 0.4rem;
+      color: #f0f3fa;
+    }
+
+    .hub-card p {
+      color: #9ca3b8;
+      font-size: 0.98rem;
+      line-height: 1.5;
+    }
+
+    .badge {
+      background: #2d3140;
+      padding: 0.25rem 0.9rem;
+      border-radius: 2rem;
+      font-size: 0.8rem;
+      font-weight: 500;
+      letter-spacing: 0.3px;
+      margin-top: 0.9rem;
+      color: #b9c7e9;
+      border: 1px solid #404656;
+      display: inline-block;
+    }
+
+    .website-section {
+      margin-top: 2.5rem;
+      background: #1b1e27;
+      border-radius: 2rem;
+      padding: 1.5rem 1.8rem;
+      border: 1px solid rgba(255,255,255,0.05);
+    }
+
+    .website-link {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .website-link a {
+      color: #c6d9ff;
+      text-decoration: none;
+      font-size: 1.4rem;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      transition: color 0.2s;
+      word-break: break-word;
+    }
+
+    .website-link a:hover {
+      color: #ffffff;
+    }
+
+    .website-link i {
+      font-size: 1.6rem;
+      color: #5f8be0;
+    }
+
+    .live-tag {
+      background: #1e3a5f;
+      padding: 0.2rem 0.8rem;
+      border-radius: 20px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: #b3d9ff;
+      letter-spacing: 0.4px;
+      margin-left: 0.6rem;
+    }
+
+    .footer-note {
+      margin-top: 2.2rem;
+      font-size: 0.9rem;
+      color: #6a7182;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+      border-top: 1px solid rgba(255,255,255,0.08);
+      padding-top: 1.5rem;
+    }
+
+    .status-dot {
+      display: inline-block;
+      width: 10px;
+      height: 10px;
+      border-radius: 10px;
+      background: #34d399;
+      margin-right: 0.4rem;
+    }
+
+    button, .btn-style {
+      background: none;
+      border: none;
+      color: #b9c2d9;
+    }
+
+    @media (max-width: 500px) {
+      .card {
+        padding: 2rem 1.5rem;
+      }
+      h1 {
+        font-size: 2.4rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <!-- Kopfbereich -->
+    <h1>
+      <i class="fas fa-terminal"></i> lzhenweidev
+    </h1>
+    <div class="subtitle">
+      <i class="fas fa-code-branch"></i> Entwickler · Projekte · Apps
+    </div>
+
+    <!-- Hubs: SoftRepo & CodeHub -->
+    <div class="grid">
+      <!-- SoftRepo Karte -->
+      <a href="https://lzhenweidev.github.io/Hubs/index.html" target="_blank" rel="noopener" class="hub-card">
+        <div class="hub-icon">
+          <i class="fas fa-box-archive"></i>
+        </div>
+        <h2>SoftRepo</h2>
+        <p>Software-Hub mit Betriebssystem-Filtern, Abteilungen & Status (🟢 Stable, 🔴 Discontinued).</p>
+        <span class="badge"><i class="far fa-window-maximize"></i> Windows · macOS · Linux</span>
+      </a>
+
+      <!-- CodeHub Karte -->
+      <a href="https://lzhenweidev.github.io/Hubs/codehub.html" target="_blank" rel="noopener" class="hub-card">
+        <div class="hub-icon">
+          <i class="fas fa-code"></i>
+        </div>
+        <h2>CodeHub</h2>
+        <p>Code-Snippets, Sprachen-Statistiken & Code-Zeilen – übersichtliche Sammlung.</p>
+        <span class="badge"><i class="fas fa-heart"></i> 0 Likes · 📝 Snippets</span>
+      </a>
+    </div>
+
+    <!-- Website Projekt: chessmate-x -->
+    <div class="website-section">
+      <div class="website-link">
+        <a href="https://chessmate-x.web.app" target="_blank" rel="noopener noreferrer">
+          <i class="fas fa-chess-queen"></i> chessmate-x.web.app
+          <span class="live-tag"><span class="status-dot"></span> LIVE</span>
+        </a>
+        <span style="color:#8f9bb5; font-size:0.9rem;">
+          <i class="fas fa-external-link-alt"></i> Schach-Webapp
+        </span>
+      </div>
+      <p style="margin-top: 0.8rem; color:#a3adc2; font-size:0.95rem; display:flex; gap:1.2rem; flex-wrap:wrap;">
+        <span><i class="far fa-folder-open"></i> Projekt: chessmate-x</span>
+        <span><i class="fas fa-cloud"></i> Firebase Hosting</span>
+      </p>
+    </div>
+
+    <!-- Alle Projekte & Apps Übersicht -->
+    <div style="display: flex; flex-wrap: wrap; gap: 1.2rem; margin-top: 2rem; align-items: center;">
+      <div style="background:#21242e; border-radius:2.5rem; padding:0.5rem 1.5rem;">
+        <i class="fas fa-mobile-alt" style="color:#6b8cce; margin-right:0.4rem;"></i> 
+        <span style="font-weight:500;">Apps:</span> SoftRepo · CodeHub
+      </div>
+      <div style="background:#21242e; border-radius:2.5rem; padding:0.5rem 1.5rem;">
+        <i class="fas fa-globe" style="color:#6b8cce; margin-right:0.4rem;"></i> 
+        <span style="font-weight:500;">Websites:</span> chessmate-x.web.app
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer-note">
+      <span><i class="far fa-smile"></i> lzhenweidev – Entwicklerportfolio</span>
+      <span style="display:flex; gap:1.8rem;">
+        <a href="https://lzhenweidev.github.io/Hubs/index.html" style="color:#98a9cc; text-decoration:none;"><i class="fab fa-github"></i> SoftRepo</a>
+        <a href="https://lzhenweidev.github.io/Hubs/codehub.html" style="color:#98a9cc; text-decoration:none;"><i class="fas fa-code"></i> CodeHub</a>
+      </span>
+    </div>
+  </div>
+</body>
+</html>
